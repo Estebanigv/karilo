@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Karilo brand colors: #050bfa (deep blue) → #0796fc (mid blue) → #a5cff0 (light blue), #414142 (dark gray) */
+    --background: 210 30% 98%;
+    --foreground: 240 1% 26%;       /* #414142 Karilo dark gray */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 1% 26%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 1% 26%;
+
+    --primary: 238 97% 50%;         /* #050bfa Karilo deep blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 206 71% 92%;       /* Tint of #a5cff0 light blue */
+    --secondary-foreground: 238 97% 35%;
+
+    --muted: 210 20% 93%;
+    --muted-foreground: 215 10% 46%;
+
+    --accent: 205 97% 51%;          /* #0796fc Karilo medium blue */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 206 60% 88%;
+    --input: 206 60% 88%;
+    --ring: 238 97% 50%;
+
+    --radius: 0.75rem;
+
+    --font-display: 'Montserrat', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --sidebar-background: 206 71% 97%;
+    --sidebar-foreground: 240 1% 26%;
+    --sidebar-primary: 238 97% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 206 71% 92%;
+    --sidebar-accent-foreground: 238 97% 35%;
+    --sidebar-border: 206 60% 88%;
+    --sidebar-ring: 205 97% 51%;
+  }
+
+  .dark {
+    --background: 238 60% 6%;
+    --foreground: 206 71% 93%;
+    --card: 238 50% 9%;
+    --card-foreground: 206 71% 93%;
+    --popover: 238 50% 9%;
+    --popover-foreground: 206 71% 93%;
+    --primary: 205 97% 60%;         /* Lighter blue for dark mode */
+    --primary-foreground: 238 97% 10%;
+    --secondary: 238 30% 15%;
+    --secondary-foreground: 206 71% 93%;
+    --muted: 238 30% 18%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 205 97% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 238 25% 20%;
+    --input: 238 25% 20%;
+    --ring: 205 97% 60%;
+    --sidebar-background: 238 60% 8%;
+    --sidebar-foreground: 206 71% 90%;
+    --sidebar-primary: 205 97% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 238 30% 15%;
+    --sidebar-accent-foreground: 206 71% 90%;
+    --sidebar-border: 238 25% 20%;
+    --sidebar-ring: 205 97% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+    box-shadow: 0 8px 32px hsl(var(--primary) / 0.06);
+  }
+
+  /* Elevated card with hover */
+  .elevated-card {
+    @apply bg-card border border-border/60 rounded-xl;
+    box-shadow: 0 1px 3px hsl(var(--primary) / 0.04);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .elevated-card:hover {
+    box-shadow: 0 20px 40px hsl(var(--primary) / 0.1);
+    transform: translateY(-4px);
+  }
+
+  /* Accent line */
+  .accent-line {
+    @apply w-12 h-1 bg-accent rounded-full;
+  }
+
+  /* Gradient text — Karilo blue gradient */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #050bfa, #0796fc, #a5cff0);
+  }
+
+  /* Section label */
+  .section-label {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase;
+    @apply bg-accent/10 text-accent font-display;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fade-in-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-reveal {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(238 97% 50% / 0.5); }
+  50% { box-shadow: 0 0 0 14px hsl(238 97% 50% / 0); }
+}
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-left {
+  animation: fade-in-left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-right {
+  animation: fade-in-right 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.animate-scale-reveal {
+  animation: scale-reveal 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-line-grow {
+  animation: line-grow 0.6s ease-out forwards;
+  transform-origin: left;
+}
