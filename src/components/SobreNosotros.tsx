@@ -283,7 +283,7 @@ const SobreNosotros = () => {
 
                 {/* stat */}
                 <div className="flex items-baseline gap-3 pt-2 border-t border-gray-200">
-                  <span className="font-display text-5xl font-black text-[#050bfa] leading-none">
+                  <span className="font-display text-5xl font-black text-[#0796fc] leading-none">
                     {t.nosotros.stat}
                   </span>
                   <span className="font-body text-sm text-gray-500 leading-snug">

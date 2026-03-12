@@ -94,7 +94,7 @@ export const en: Translations = {
     mapTitle: "International Presence",
     mapDesc:
       "Kariló maintains active commercial relationships with more than 20 countries for the sourcing and commercialization of raw materials and nutritional ingredients.",
-    stat: "20+ countries",
+    stat: "+20",
     statDesc: "active commercial relationships",
     founded: "Year founded",
     offices: [

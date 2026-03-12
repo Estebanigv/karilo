@@ -94,7 +94,7 @@ export const pt: Translations = {
     mapTitle: "Presença Internacional",
     mapDesc:
       "A Kariló mantém relações comerciais ativas com mais de 20 países para o sourcing e comercialização de matérias-primas e ingredientes nutricionais.",
-    stat: "20+ países",
+    stat: "+20",
     statDesc: "relações comerciais ativas",
     founded: "Ano de fundação",
     offices: [
