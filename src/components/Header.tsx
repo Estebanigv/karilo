@@ -49,7 +49,7 @@ const Header = () => {
 
         {/* LinkedIn */}
         <a
-          href="https://www.linkedin.com/company/karilo"
+          href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:flex w-9 h-9 items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
@@ -91,7 +91,7 @@ const Header = () => {
           ))}
           <div className="flex items-center justify-between pt-3 gap-3">
             <a
-              href="https://www.linkedin.com/company/karilo"
+              href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-white/60 hover:text-white font-display text-sm font-semibold transition-colors"
