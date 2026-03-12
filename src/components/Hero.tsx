@@ -28,14 +28,14 @@ const Hero = () => {
       <div className="absolute top-[15%] left-[40%] w-48 h-48 rounded-full bg-[#0796fc]/6 blur-[80px]" />
 
       {/* Content — left aligned */}
-      <div className="relative z-10 container px-6 py-36">
+      <div className="relative z-10 container px-6 pt-28 pb-16 md:py-36">
         <div className="max-w-2xl">
           {/* Logo Karilo grande — marca principal en hero */}
           <div className="animate-fade-in-up mb-8">
             <img
               src={logoKarilo}
               alt="Kariló"
-              className="h-20 md:h-24 lg:h-28 w-auto brightness-0 invert"
+              className="h-14 md:h-20 lg:h-28 w-auto brightness-0 invert"
             />
           </div>
 
@@ -59,7 +59,7 @@ const Hero = () => {
 
           {/* H1 */}
           <h1
-            className="font-display text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-8 animate-fade-in-up"
+            className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.05] mb-8 animate-fade-in-up break-words"
             style={{ animationDelay: "0.28s" }}
           >
             Nutrición y Energía,{" "}
@@ -68,7 +68,7 @@ const Hero = () => {
 
           {/* Subtítulo */}
           <p
-            className="font-body text-lg md:text-xl text-white/80 max-w-xl mb-10 leading-relaxed animate-fade-in-up"
+            className="font-body text-base md:text-xl text-white/80 max-w-xl mb-10 leading-relaxed animate-fade-in-up"
             style={{ animationDelay: "0.4s" }}
           >
             Comercializadora internacional especializada en aceites, grasas, proteínas e ingredientes nutricionales de alto valor, orientados a la nutrición animal, acuicultura, petfood, producción porcina y biodiésel.
@@ -76,19 +76,19 @@ const Hero = () => {
 
           {/* CTAs */}
           <div
-            className="flex flex-wrap gap-4 animate-fade-in-up"
+            className="flex flex-col sm:flex-row flex-wrap gap-4 animate-fade-in-up"
             style={{ animationDelay: "0.52s" }}
           >
             <a
               href="#contacto"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-display text-sm font-semibold rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_8px_30px_hsl(205_97%_51%/0.4)]"
+              className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-accent text-accent-foreground font-display text-sm font-semibold rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_8px_30px_hsl(205_97%_51%/0.4)]"
             >
               Contáctanos
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
               href="#soluciones"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/25 text-white font-display text-sm font-semibold rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 border border-white/25 text-white font-display text-sm font-semibold rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
             >
               Explorar soluciones
             </a>

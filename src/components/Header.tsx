@@ -30,14 +30,14 @@ const Header = () => {
         scrolled ? "bg-[#03051a]/30 backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="container flex items-center justify-end h-20 gap-2">
+      <div className="container flex items-center justify-end h-16 md:h-20 gap-2 px-4 sm:px-6">
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-0.5">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="px-4 py-2 font-display text-[13px] font-semibold tracking-wider uppercase transition-colors duration-300 rounded-lg text-white/85 hover:text-white"
+              className="px-3 lg:px-4 py-2 font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase transition-colors duration-300 rounded-lg text-white/85 hover:text-white whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -45,7 +45,7 @@ const Header = () => {
         </nav>
 
         {/* Separador */}
-        <div className="hidden md:block w-px h-5 bg-white/20 mx-3" />
+        <div className="hidden md:block w-px h-5 bg-white/20 mx-2 lg:mx-3" />
 
         {/* LinkedIn */}
         <a
@@ -61,7 +61,7 @@ const Header = () => {
         {/* CTA */}
         <a
           href="#contacto"
-          className="hidden md:inline-flex ml-2 px-6 py-2.5 bg-accent text-white font-display text-[13px] font-semibold tracking-wider uppercase rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_4px_16px_hsl(205_97%_51%/0.4)]"
+          className="hidden md:inline-flex ml-2 px-4 lg:px-6 py-2.5 bg-accent text-white font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_4px_16px_hsl(205_97%_51%/0.4)] whitespace-nowrap"
         >
           Contáctanos
         </a>
@@ -78,7 +78,7 @@ const Header = () => {
 
       {/* Mobile nav */}
       {open && (
-        <nav className="md:hidden bg-[#03051a]/80 backdrop-blur-xl mx-4 mb-4 rounded-xl px-6 py-5 space-y-1 border border-white/10 animate-scale-reveal">
+        <nav className="md:hidden bg-[#03051a]/80 backdrop-blur-xl mx-3 sm:mx-4 mb-4 rounded-xl px-5 sm:px-6 py-5 space-y-1 border border-white/10 animate-scale-reveal">
           {navLinks.map((link) => (
             <a
               key={link.href}

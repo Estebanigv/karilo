@@ -27,7 +27,7 @@ const Contacto = () => {
     "w-full px-4 py-3.5 rounded-xl border border-border bg-background text-foreground font-body text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 transition-all duration-300";
 
   return (
-    <section id="contacto" className="py-24 md:py-32 bg-secondary/50">
+    <section id="contacto" className="py-16 md:py-24 lg:py-32 bg-secondary/50">
       <div className="container px-6">
         <div className="text-center mb-14">
           <span className="section-label mb-4 inline-block">Hablemos</span>
@@ -40,7 +40,7 @@ const Contacto = () => {
           {/* Form — wider */}
           <form
             onSubmit={handleSubmit}
-            className="lg:col-span-3 elevated-card p-8 md:p-10 space-y-5"
+            className="lg:col-span-3 elevated-card p-6 md:p-8 lg:p-10 space-y-5"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <input

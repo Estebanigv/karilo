@@ -19,10 +19,10 @@ const SobreNosotros = () => {
   }, []);
 
   return (
-    <section id="nosotros" className="py-24 md:py-32 bg-background overflow-hidden">
+    <section id="nosotros" className="py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
       <div className="container px-6" ref={ref}>
         {/* About — Asymmetric layout */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center mb-28">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center mb-16 md:mb-28">
           {/* Image — takes more space */}
           <div
             className={`lg:col-span-7 ${visible ? "animate-fade-in-left" : "opacity-0"}`}
@@ -31,10 +31,10 @@ const SobreNosotros = () => {
               <img
                 src={casaMatrizImg}
                 alt="Casa Matriz Kariló, Concepción, Chile"
-                className="w-full h-[28rem] object-cover rounded-2xl"
+                className="w-full h-64 md:h-80 lg:h-[28rem] object-cover rounded-2xl"
               />
               {/* Floating badge */}
-              <div className="absolute -bottom-5 -right-4 md:right-8 glass-card rounded-xl px-5 py-4 animate-float">
+              <div className="absolute -bottom-5 right-4 md:right-8 glass-card rounded-xl px-5 py-4 animate-float">
                 <p className="font-display text-2xl font-bold text-accent">2017</p>
                 <p className="font-body text-xs text-muted-foreground">Año de fundación</p>
               </div>
@@ -64,7 +64,7 @@ const SobreNosotros = () => {
           className={`max-w-6xl mx-auto mb-28 ${visible ? "animate-fade-in-up" : "opacity-0"}`}
           style={{ animationDelay: "0.2s" }}
         >
-          <div className="elevated-card p-10 md:p-14 text-center relative overflow-hidden">
+          <div className="elevated-card p-7 md:p-10 lg:p-14 text-center relative overflow-hidden">
             {/* Subtle bg accent */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
             <div className="relative z-10">
@@ -102,7 +102,7 @@ const SobreNosotros = () => {
             />
 
             {/* Office cards */}
-            <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-3 justify-center">
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 justify-center">
               {[
                 { city: "Concepción, Chile", label: "Casa Matriz" },
                 { city: "Lima, Perú", label: "Be&Ka Trading" },
@@ -110,7 +110,7 @@ const SobreNosotros = () => {
               ].map((office) => (
                 <div
                   key={office.city}
-                  className="glass-card rounded-xl px-5 py-3 flex items-center gap-3"
+                  className="glass-card rounded-xl px-4 py-2.5 sm:px-5 sm:py-3 flex items-center gap-3"
                 >
                   <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0 animate-pulse-glow">
                     <MapPin className="w-4 h-4 text-accent" />

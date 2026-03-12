@@ -29,22 +29,22 @@ const Footer = () => {
 
       {/* Main footer body */}
       <div className="container px-6 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
 
           {/* Col 1 — Brand */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 sm:col-span-2 lg:col-span-1">
             <img
               src={logoKarilo}
               alt="Kariló"
-              className="h-12 w-auto brightness-0 invert opacity-90 mb-6"
+              className="h-12 w-auto brightness-0 invert opacity-90 mb-6 mx-auto sm:mx-0"
             />
-            <p className="font-body text-sm text-white/50 leading-relaxed mb-6">
+            <p className="font-body text-sm text-white/50 leading-relaxed mb-6 text-center sm:text-left">
               Comercializadora internacional especializada en aceites, grasas, proteínas e ingredientes nutricionales de alto valor.
             </p>
             {/* CTA pequeño */}
             <a
               href="#contacto"
-              className="inline-flex items-center gap-2 text-[#0796fc] font-display text-sm font-semibold hover:gap-3 transition-all duration-300"
+              className="inline-flex items-center gap-2 text-[#0796fc] font-display text-sm font-semibold hover:gap-3 transition-all duration-300 mx-auto sm:mx-0 flex"
             >
               Contáctanos <ArrowRight className="w-4 h-4" />
             </a>
@@ -134,11 +134,11 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-white/8">
-        <div className="container px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-body text-xs text-white/30">
+        <div className="container px-6 py-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-4">
+          <p className="font-body text-xs text-white/30 text-center sm:text-left">
             © {new Date().getFullYear()} Kariló Investment Group SpA. Todos los derechos reservados.
           </p>
-          <p className="font-body text-xs text-white/20">
+          <p className="font-body text-xs text-white/20 text-center sm:text-right">
             Chile · Perú · Brasil
           </p>
         </div>

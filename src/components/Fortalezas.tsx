@@ -46,18 +46,18 @@ const Fortalezas = () => {
   }, []);
 
   return (
-    <section className="py-24 md:py-32 bg-white overflow-hidden">
+    <section className="py-16 md:py-24 lg:py-32 bg-white overflow-hidden">
       <div className="container px-6" ref={ref}>
 
         {/* Header */}
-        <div className={`max-w-xl mb-16 ${visible ? "animate-fade-in-left" : "opacity-0"}`}>
+        <div className={`max-w-xl mb-12 md:mb-16 ${visible ? "animate-fade-in-left" : "opacity-0"}`}>
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-px bg-[#0796fc]" />
             <span className="font-display text-xs font-bold tracking-widest uppercase text-[#0796fc]">
               Nuestras Fortalezas
             </span>
           </div>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-[#414142] leading-tight">
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-[#414142] leading-tight">
             Los pilares que nos hacen diferentes
           </h2>
         </div>
@@ -67,7 +67,7 @@ const Fortalezas = () => {
           {strengths.map((item, i) => (
             <div
               key={item.title}
-              className={`group relative p-10 bg-white hover:bg-[#f8fbff] transition-colors duration-300 ${
+              className={`group relative p-7 md:p-10 bg-white hover:bg-[#f8fbff] transition-colors duration-300 ${
                 i === 0 || i === 1 ? "border-b border-gray-100" : ""
               } ${i % 2 === 0 ? "md:border-r border-gray-100" : ""} ${
                 visible ? "animate-fade-in-up" : "opacity-0"
