@@ -79,7 +79,7 @@ const Contacto = () => {
           <div className="lg:col-span-3 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden">
 
             {/* Card header strip */}
-            <div className="px-8 py-5 border-b border-white/8 flex items-center gap-3">
+            <div className="px-8 py-5 flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-[#0796fc]" />
               <span className="font-display text-xs font-bold tracking-widest uppercase text-white/50">
                 {sent ? t.contacto.successTitle : t.contacto.send}
@@ -179,7 +179,7 @@ const Contacto = () => {
 
             {/* Contact details */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-white/8">
+              <div className="px-6 py-4">
                 <span className="font-display text-[10px] font-bold tracking-widest uppercase text-white/40">
                   {t.contacto.infoTitle}
                 </span>
@@ -235,7 +235,7 @@ const Contacto = () => {
 
             {/* Offices */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden flex-1">
-              <div className="px-6 py-4 border-b border-white/8">
+              <div className="px-6 py-4">
                 <span className="font-display text-[10px] font-bold tracking-widest uppercase text-white/40">
                   {t.contacto.officesTitle}
                 </span>

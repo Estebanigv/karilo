@@ -33,7 +33,7 @@ const Footer = () => {
             <img
               src={logoKarilo}
               alt="Kariló"
-              className="h-12 w-auto brightness-0 invert opacity-90 mb-6 mx-auto sm:mx-0"
+              className="h-16 md:h-20 w-auto brightness-0 invert opacity-90 mb-6 mx-auto sm:mx-0"
             />
             <p className="font-body text-sm text-white/50 leading-relaxed mb-6 text-center sm:text-left">
               {t.footer.desc}
