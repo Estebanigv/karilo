@@ -20,7 +20,6 @@ const Hero = () => {
         </video>
         {/* Azul-Karilo gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#03051a]/95 via-[#020b3a]/80 to-[#050bfa]/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#03051a]/70 via-transparent to-transparent" />
       </div>
 
       {/* Orbes de luz Karilo */}
@@ -97,8 +96,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Bottom fade — sin blanco */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent" />
     </section>
   );
 };
