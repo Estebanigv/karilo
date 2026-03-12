@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import logoKarilo from "@/assets/logo-karilo.svg";
 
 const LinkedInIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -17,9 +18,14 @@ const navLinks = [
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      const heroHeight = window.innerHeight;
+      setScrolled(window.scrollY > 60);
+      setPastHero(window.scrollY > heroHeight * 0.75);
+    };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -30,7 +36,15 @@ const Header = () => {
         scrolled ? "bg-[#03051a]/30 backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="container flex items-center justify-end h-16 md:h-20 gap-2 px-4 sm:px-6">
+      <div className="container flex items-center justify-between h-16 md:h-20 gap-2 px-4 sm:px-6">
+
+        {/* Logo — aparece al pasar el hero */}
+        <a
+          href="#inicio"
+          className={`shrink-0 transition-all duration-500 ${pastHero ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
+        >
+          <img src={logoKarilo} alt="Kariló" className="h-9 md:h-10 w-auto brightness-0 invert" />
+        </a>
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-0.5">
           {navLinks.map((link) => (
