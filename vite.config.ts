@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/karilo/" : "/",
+  base: process.env.GITHUB_ACTIONS ? "/karilo/" : "/",
   server: {
     host: "::",
     port: 8080,
