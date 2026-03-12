@@ -95,7 +95,7 @@ export const en: Translations = {
     mapDesc:
       "Kariló maintains active commercial relationships with more than 20 countries for the sourcing and commercialization of raw materials and nutritional ingredients.",
     stat: "+20",
-    statDesc: "active commercial relationships",
+    statDesc: "active commercial relationships across 20+ countries",
     founded: "Year founded",
     offices: [
       { city: "Concepción, Chile", label: "Headquarters" },

@@ -93,7 +93,7 @@ export const es = {
     mapDesc:
       "Kariló mantiene relaciones comerciales activas con más de 20 países para el sourcing y comercialización de materias primas e ingredientes nutricionales.",
     stat: "+20",
-    statDesc: "relaciones comerciales activas",
+    statDesc: "relaciones comerciales activas con más de 20 países",
     founded: "Año de fundación",
     offices: [
       { city: "Concepción, Chile", label: "Casa Matriz" },

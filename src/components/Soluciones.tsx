@@ -2,12 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRightLeft, Truck, Landmark, Microscope, X, ArrowRight } from "lucide-react";
 import tradingImg from "@/assets/trading.png";
 import logisticaImg from "@/assets/logistica.png";
-import fortalezasImg from "@/assets/fortalezas.png";
 import valorImg from "@/assets/valor-desempeno.png";
 import { useLanguage } from "../context/LanguageContext";
 
 const icons = [ArrowRightLeft, Truck, Landmark, Microscope];
-const images = [tradingImg, logisticaImg, fortalezasImg, valorImg];
+const images = [
+  tradingImg,
+  logisticaImg,
+  "/imagenes/Relaciones%20que%20perduran.png",
+  valorImg,
+];
 
 // transform-origin by position in 2x2 grid
 const origins = ["top left", "top right", "bottom left", "bottom right"];
