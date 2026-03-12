@@ -1,7 +1,10 @@
 import abastecimientoImg from "@/assets/abastecimiento.png";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const CTASection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="relative py-20 md:py-28 lg:py-36 overflow-hidden">
       <div className="absolute inset-0">
@@ -20,20 +23,20 @@ const CTASection = () => {
       <div className="relative z-10 container px-6">
         <div className="max-w-2xl">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-[#0796fc]/15 text-[#a5cff0] border border-[#0796fc]/25 font-display backdrop-blur-sm mb-6 block w-fit">
-            Abastecimiento
+            {t.cta.label}
           </span>
           <h2 className="font-display text-2xl md:text-3xl lg:text-5xl font-bold text-white leading-tight mb-6 break-words">
-            Asegura el abastecimiento que tu operación{" "}
-            <span className="text-[#0796fc]">necesita</span>
+            {t.cta.title1}{" "}
+            <span className="text-[#0796fc]">{t.cta.titleAccent}</span>
           </h2>
           <p className="font-body text-white/65 text-base md:text-lg mb-10 leading-relaxed max-w-xl">
-            Desde requerimientos específicos hasta estrategias de suministro de largo plazo, nuestra experiencia, red global y solidez operativa nos permiten garantizar un suministro confiable.
+            {t.cta.desc}
           </p>
           <a
             href="#contacto"
             className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-accent text-accent-foreground font-display text-sm font-semibold rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_8px_30px_hsl(205_97%_51%/0.4)]"
           >
-            Iniciar conversación
+            {t.cta.btn}
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </a>
         </div>

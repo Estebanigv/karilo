@@ -1,25 +1,22 @@
 import logoKarilo from "@/assets/logo-karilo.svg";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   const navLinks = [
-    { label: "Inicio", href: "#inicio" },
-    { label: "Soluciones", href: "#soluciones" },
-    { label: "Sobre nosotros", href: "#nosotros" },
-    { label: "Contacto", href: "#contacto" },
+    { label: t.nav.inicio, href: "#inicio" },
+    { label: t.nav.soluciones, href: "#soluciones" },
+    { label: t.nav.nosotros, href: "#nosotros" },
+    { label: t.nav.contacto, href: "#contacto" },
   ];
 
-  const solutions = [
-    "Trading de aceites y proteínas",
-    "Gestión logística y bodegaje",
-    "Soluciones financieras",
-    "Representación de productos",
-  ];
-
-  const offices = [
-    { city: "Concepción, Chile", label: "Casa Matriz" },
-    { city: "Lima, Perú", label: "Be&Ka Trading" },
-    { city: "São Paulo, Brasil", label: "Kariló Brasil" },
+  const solutionLabels = [
+    t.soluciones.items[0].title,
+    t.soluciones.items[1].title,
+    t.soluciones.items[2].title,
+    t.soluciones.items[3].title,
   ];
 
   return (
@@ -39,25 +36,25 @@ const Footer = () => {
               className="h-12 w-auto brightness-0 invert opacity-90 mb-6 mx-auto sm:mx-0"
             />
             <p className="font-body text-sm text-white/50 leading-relaxed mb-6 text-center sm:text-left">
-              Comercializadora internacional especializada en aceites, grasas, proteínas e ingredientes nutricionales de alto valor.
+              {t.footer.desc}
             </p>
-            {/* CTA pequeño */}
+            {/* Small CTA */}
             <a
               href="#contacto"
               className="inline-flex items-center gap-2 text-[#0796fc] font-display text-sm font-semibold hover:gap-3 transition-all duration-300 mx-auto sm:mx-0 flex"
             >
-              Contáctanos <ArrowRight className="w-4 h-4" />
+              {t.nav.cta} <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
-          {/* Col 2 — Navegación */}
+          {/* Col 2 — Navigation */}
           <div>
             <h4 className="font-display text-xs font-bold tracking-widest uppercase text-white/40 mb-5">
-              Navegación
+              {t.footer.nav}
             </h4>
             <ul className="space-y-3">
               {navLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.href}>
                   <a
                     href={link.href}
                     className="font-body text-sm text-white/60 hover:text-white transition-colors duration-300"
@@ -69,13 +66,13 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Col 3 — Soluciones */}
+          {/* Col 3 — Solutions */}
           <div>
             <h4 className="font-display text-xs font-bold tracking-widest uppercase text-white/40 mb-5">
-              Soluciones
+              {t.footer.solutions}
             </h4>
             <ul className="space-y-3">
-              {solutions.map((s) => (
+              {solutionLabels.map((s) => (
                 <li key={s}>
                   <span className="font-body text-sm text-white/60">{s}</span>
                 </li>
@@ -83,10 +80,10 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Col 4 — Contacto y Oficinas */}
+          {/* Col 4 — Contact & Offices */}
           <div>
             <h4 className="font-display text-xs font-bold tracking-widest uppercase text-white/40 mb-5">
-              Contacto
+              {t.footer.contact}
             </h4>
             <ul className="space-y-4 mb-7">
               <li>
@@ -115,10 +112,10 @@ const Footer = () => {
             </ul>
 
             <h4 className="font-display text-xs font-bold tracking-widest uppercase text-white/40 mb-4">
-              Oficinas
+              {t.footer.offices}
             </h4>
             <ul className="space-y-3">
-              {offices.map((o) => (
+              {t.nosotros.offices.map((o) => (
                 <li key={o.city} className="flex items-start gap-2.5">
                   <MapPin className="w-3.5 h-3.5 text-[#0796fc] mt-0.5 shrink-0" />
                   <div>
@@ -136,7 +133,7 @@ const Footer = () => {
       <div className="border-t border-white/8">
         <div className="container px-6 py-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-4">
           <p className="font-body text-xs text-white/30 text-center sm:text-left">
-            © {new Date().getFullYear()} Kariló Investment Group SpA. Todos los derechos reservados.
+            © {new Date().getFullYear()} Kariló Investment Group SpA. {t.footer.rights}
           </p>
           <p className="font-body text-xs text-white/20 text-center sm:text-right">
             Chile · Perú · Brasil

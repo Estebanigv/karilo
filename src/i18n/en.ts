@@ -1,0 +1,129 @@
+import type { Translations } from "./es";
+
+export const en: Translations = {
+  nav: {
+    inicio: "Home",
+    soluciones: "Solutions",
+    nosotros: "About Us",
+    contacto: "Contact",
+    cta: "Contact Us",
+  },
+  hero: {
+    tag: "International Trade",
+    title1: "Nutrition and Energy,",
+    titleAccent: "transparent",
+    title2: "and global.",
+    subtitle:
+      "International trading company specialized in high-value oils, fats, proteins, and nutritional ingredients, focused on animal nutrition, aquaculture, pet food, swine production, and biodiesel.",
+    cta1: "Contact Us",
+    cta2: "Explore solutions",
+  },
+  fortalezas: {
+    label: "Our Strengths",
+    title: "The pillars that make us different",
+    items: [
+      {
+        title: "Technical expertise",
+        desc: "Sourcing of oils, proteins and nutritional ingredients, both pure and formulated, for industries with high technical demands.",
+      },
+      {
+        title: "Value that drives performance",
+        desc: "Products focused on productive performance, efficiency, and quality in animal nutrition and energy applications.",
+      },
+      {
+        title: "Compliance and transparency",
+        desc: "Operations grounded in regulatory compliance, traceability, and transparent commercial terms that safeguard business security and continuity.",
+      },
+      {
+        title: "Lasting relationships",
+        desc: "We believe in building long-term alliances with clients and suppliers, based on trust, operational consistency, and sustainable value creation.",
+      },
+    ],
+  },
+  soluciones: {
+    label: "Comprehensive Solutions",
+    title1: "Designed for your",
+    titleAccent: "growth",
+    subtitle:
+      "Solutions that ensure operational continuity and boost our clients' development.",
+    pill: "Solution",
+    cta: "Start a conversation",
+    back: "Go back",
+    items: [
+      {
+        title: "Trading of oils, proteins and ingredients",
+        tagline: "Specialized international trading.",
+        desc: "International trading of oils, fats, meals and specialized ingredients for animal nutrition, aquaculture, pet food, swine production, and biodiesel.",
+      },
+      {
+        title: "Logistics and warehousing management",
+        tagline: "Tailored operational coordination.",
+        desc: "Coordination of warehousing, transport and logistics distribution, adapted to the operational needs of each partner and market.",
+      },
+      {
+        title: "Financial solutions for partners",
+        tagline: "Short and medium-term alternatives.",
+        desc: "Structuring of short and medium-term financial alternatives that facilitate operational continuity and strengthen sustainable commercial relationships.",
+      },
+      {
+        title: "Product representation and development",
+        tagline: "Innovation connected to the Latin American market.",
+        desc: "We drive the introduction and expansion of specialized nutritional ingredients of international origin, connecting innovation with opportunities in Latin America.",
+      },
+    ],
+  },
+  cta: {
+    label: "Supply",
+    title1: "Secure the supply your operation",
+    titleAccent: "needs",
+    desc: "From specific requirements to long-term supply strategies, our experience, global network, and operational strength allow us to guarantee a reliable supply.",
+    btn: "Start a conversation",
+  },
+  nosotros: {
+    label: "About Us",
+    title1: "A strategic",
+    titleAccent: "partner",
+    title2: "in Latin America",
+    p1: "Kariló is a business group headquartered in Chile, specialized in the international trading and commercialization of high-value oils, proteins and nutritional ingredients, primarily for animal nutrition and industrial applications.",
+    p2: "Founded in 2017, we are a Chilean company with a growing international presence, focused on the strategic sourcing of high-value oils, fats, proteins and functional ingredients.",
+    valorLabel: "Value proposition",
+    valorTitle: "How we generate value",
+    valorDesc:
+      "We connect the supply and demand of critical inputs and specialized ingredients, integrating international sourcing, logistics solutions and financial structuring.",
+    mapLabel: "Global Reach",
+    mapTitle: "International Presence",
+    mapDesc:
+      "Kariló maintains active commercial relationships with more than 20 countries for the sourcing and commercialization of raw materials and nutritional ingredients.",
+    stat: "20+ countries",
+    statDesc: "active commercial relationships",
+    founded: "Year founded",
+    offices: [
+      { city: "Concepción, Chile", label: "Headquarters" },
+      { city: "Lima, Peru", label: "Be&Ka Trading" },
+      { city: "São Paulo, Brazil", label: "Kariló Brasil" },
+    ],
+  },
+  contacto: {
+    label: "Let's talk",
+    title: "Contact",
+    nombre: "Name *",
+    empresa: "Company *",
+    cargo: "Position",
+    pais: "Country",
+    correo: "Email address *",
+    mensaje: "How can we help you?",
+    send: "Send message",
+    infoTitle: "Contact information",
+    emailLabel: "Corporate email",
+    phoneLabel: "Phone / WhatsApp",
+    officesTitle: "Offices",
+  },
+  footer: {
+    desc: "International trading company specialized in high-value oils, fats, proteins, and nutritional ingredients.",
+    nav: "Navigation",
+    solutions: "Solutions",
+    contact: "Contact",
+    offices: "Offices",
+    rights: "All rights reserved.",
+  },
+};
