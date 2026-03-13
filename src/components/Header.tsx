@@ -183,49 +183,57 @@ const Header = () => {
         </div>
       </header>
 
-      {/* ── Fullscreen overlay — OUTSIDE header to avoid CSS transform bug ── */}
+      {/* ── Fullscreen overlay ── */}
       {open && (
         <div
-          className="fixed inset-0 bg-[#03051a] flex flex-col"
-          style={{ zIndex: 9999 }}
+          className="fixed inset-0 flex flex-col"
+          style={{
+            zIndex: 9999,
+            background: "linear-gradient(135deg, #03051a 0%, #060c2e 60%, #04112b 100%)",
+          }}
         >
+          {/* Decorative background glow */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(7,150,252,0.06) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(5,11,250,0.05) 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
+
           {/* Top bar */}
-          <div className="flex items-center justify-between px-6 sm:px-12 pt-6 pb-4 border-b border-white/8">
+          <div className="flex items-center justify-between px-8 sm:px-14 pt-8 pb-6">
             <a href="#inicio" onClick={() => setOpen(false)} className="shrink-0">
               <img
                 src={logoKarilo}
                 alt="Kariló"
-                className="h-10 md:h-11 w-auto"
-                style={{ filter: "brightness(0) invert(1)" }}
+                className="h-12 md:h-14 w-auto"
+                style={{ filter: "brightness(0) invert(1)", opacity: 0.92 }}
               />
             </a>
             <button
               onClick={() => setOpen(false)}
-              className="p-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/8 transition-all duration-200"
+              className="w-11 h-11 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/8 transition-all duration-200"
               aria-label="Cerrar menú"
             >
-              <X size={26} />
+              <X size={22} />
             </button>
           </div>
 
           {/* Nav links */}
-          <nav className="flex-1 flex flex-col justify-center px-8 sm:px-14">
+          <nav className="flex-1 flex flex-col justify-center px-8 sm:px-14 gap-1">
             {navLinks.map((link, idx) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="group/link flex items-center justify-between py-3 sm:py-4 border-b border-white/8 last:border-0"
+                className="group/link flex items-center gap-6 py-4 relative"
               >
-                <span className="font-display text-[10px] font-bold text-white/25 tracking-[0.25em] tabular-nums">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <div className="flex items-center gap-3">
-                  <span className="font-display text-[9vw] sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white/55 group-hover/link:text-white transition-colors duration-200 leading-none">
-                    {link.label}
+                {/* Accent line on hover */}
+                <div className="w-0 group-hover/link:w-8 h-px bg-[#0796fc] transition-all duration-300 shrink-0" />
+                <div className="flex items-baseline gap-4 flex-1">
+                  <span className="font-display text-[10px] font-bold text-[#0796fc]/40 tracking-[0.3em] tabular-nums group-hover/link:text-[#0796fc]/70 transition-colors duration-300">
+                    {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <span className="w-0 overflow-hidden group-hover/link:w-6 transition-all duration-300 flex items-center">
-                    <ArrowRight size={18} className="text-[#0796fc] shrink-0" />
+                  <span className="font-display text-[8.5vw] sm:text-5xl md:text-[56px] font-extrabold uppercase tracking-tight text-white/40 group-hover/link:text-white transition-all duration-300 leading-none">
+                    {link.label}
                   </span>
                 </div>
               </a>
@@ -233,34 +241,38 @@ const Header = () => {
           </nav>
 
           {/* Bottom bar */}
-          <div className="flex items-center justify-between px-6 sm:px-12 pb-8 pt-4 border-t border-white/8 gap-4 flex-wrap">
-            <div className="flex items-center gap-2">
-              {(["es", "en", "pt"] as const).map((l: Lang) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-3 py-1.5 font-display text-[11px] font-bold uppercase rounded-md transition-colors ${
-                    lang === l ? "text-white bg-white/15" : "text-white/40 hover:text-white"
-                  }`}
-                >
-                  {l.toUpperCase()}
-                </button>
+          <div className="flex items-center justify-between px-8 sm:px-14 pb-10 pt-6 gap-4 flex-wrap">
+            {/* Language */}
+            <div className="flex items-center gap-1">
+              {(["es", "en", "pt"] as const).map((l: Lang, i) => (
+                <span key={l} className="flex items-center">
+                  <button
+                    onClick={() => setLang(l)}
+                    className={`px-2 py-1 font-display text-[11px] font-bold uppercase tracking-widest transition-colors duration-200 ${
+                      lang === l ? "text-white" : "text-white/30 hover:text-white/60"
+                    }`}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                  {i < 2 && <span className="text-white/15 text-xs">|</span>}
+                </span>
               ))}
             </div>
-            <div className="flex items-center gap-4">
+            {/* Actions */}
+            <div className="flex items-center gap-5">
               <a
                 href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white/45 hover:text-white font-display text-sm font-semibold transition-colors"
+                className="text-white/35 hover:text-white transition-colors duration-200"
+                aria-label="LinkedIn"
               >
-                <LinkedInIcon size={15} />
-                <span>LinkedIn</span>
+                <LinkedInIcon size={18} />
               </a>
               <a
                 href="#contacto"
                 onClick={() => setOpen(false)}
-                className="px-6 py-3 bg-accent text-white font-display text-sm font-semibold uppercase tracking-wider rounded-lg transition-all duration-300 hover:bg-accent/85"
+                className="px-6 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-widest rounded-lg hover:bg-[#0796fc]/85 transition-all duration-300"
               >
                 {t.nav.cta}
               </a>
