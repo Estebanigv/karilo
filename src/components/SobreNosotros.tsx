@@ -248,7 +248,7 @@ const SobreNosotros = () => {
                 className="w-full h-64 md:h-80 lg:h-[28rem] object-cover rounded-2xl"
               />
               <div className="absolute -bottom-5 right-4 md:right-8 glass-card rounded-xl px-5 py-4 animate-float">
-                <p className="font-display text-2xl font-bold text-accent">2017</p>
+                <p className="font-display text-2xl font-bold text-accent">2016</p>
                 <p className="font-body text-xs text-muted-foreground">{t.nosotros.founded}</p>
               </div>
             </div>

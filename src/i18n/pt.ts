@@ -83,7 +83,7 @@ export const pt: Translations = {
     titleAccent: "estratégico",
     title2: "na América Latina",
     p1: "A Kariló é um grupo empresarial com sede no Chile, especializado na comercialização e trading internacional de óleos, proteínas e ingredientes nutricionais de alto valor, destinados principalmente à nutrição animal e aplicações industriais.",
-    p2: "Fundada em 2017, somos uma empresa chilena com crescente presença internacional, focada no abastecimento estratégico de óleos, gorduras, proteínas e ingredientes funcionais de alto valor.",
+    p2: "Fundada em 2016, somos uma empresa chilena com crescente presença internacional, focada no abastecimento estratégico de óleos, gorduras, proteínas e ingredientes funcionais de alto valor.",
     valorLabel: "Proposta de valor",
     valorTitle: "Como geramos valor",
     valorDesc: "Conectamos a oferta e a demanda de insumos críticos e ingredientes especializados, integrando abastecimento internacional, soluções logísticas e estruturação financeira.",

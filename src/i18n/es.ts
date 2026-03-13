@@ -81,7 +81,7 @@ export const es = {
     titleAccent: "estratégico",
     title2: "en Latinoamérica",
     p1: "Kariló es un grupo empresarial con casa matriz en Chile, especializado en la comercialización y el trading internacional de aceites, proteínas e ingredientes nutricionales de alto valor, destinados principalmente a la nutrición animal y aplicaciones industriales.",
-    p2: "Fundada en 2017, somos una compañía chilena con creciente presencia internacional, enfocada en el abastecimiento estratégico de aceites, grasas, proteínas e ingredientes funcionales de alto valor.",
+    p2: "Fundada en 2016, somos una compañía chilena con creciente presencia internacional, enfocada en el abastecimiento estratégico de aceites, grasas, proteínas e ingredientes funcionales de alto valor.",
     valorLabel: "Propuesta de valor",
     valorTitle: "Cómo generamos valor",
     valorDesc: "Conectamos la oferta y la demanda de insumos críticos e ingredientes especializados, integrando abastecimiento internacional, soluciones logísticas y estructuración financiera.",

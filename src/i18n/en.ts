@@ -83,7 +83,7 @@ export const en: Translations = {
     titleAccent: "partner",
     title2: "in Latin America",
     p1: "Kariló is a business group headquartered in Chile, specialized in the international trading and commercialization of high-value oils, proteins and nutritional ingredients, primarily for animal nutrition and industrial applications.",
-    p2: "Founded in 2017, we are a Chilean company with a growing international presence, focused on the strategic sourcing of high-value oils, fats, proteins and functional ingredients.",
+    p2: "Founded in 2016, we are a Chilean company with a growing international presence, focused on the strategic sourcing of high-value oils, fats, proteins and functional ingredients.",
     valorLabel: "Value proposition",
     valorTitle: "How we generate value",
     valorDesc: "We connect the supply and demand of critical inputs and specialized ingredients, integrating international sourcing, logistics solutions and financial structuring.",
