@@ -236,22 +236,6 @@ const SobreNosotros = () => {
 
   return (
     <section id="nosotros" className="relative py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
-      {/* ── Decorative isotipo — positioned relative to full section width ── */}
-      <img
-        src="/iso-Karilo.svg"
-        aria-hidden="true"
-        alt=""
-        className="absolute pointer-events-none select-none hidden lg:block"
-        style={{
-          left: "-10px",
-          bottom: "4%",
-          height: "400px",
-          width: "auto",
-          opacity: 0.45,
-          zIndex: -1,
-        }}
-      />
-
       <div className="container px-6" ref={ref}>
 
         {/* ── About — Asymmetric layout ── */}
@@ -303,10 +287,26 @@ const SobreNosotros = () => {
 
         {/* ── Presencia Internacional ── */}
         <div
-          className={`max-w-6xl mx-auto ${visible ? "animate-fade-in-up" : "opacity-0"}`}
+          className={`max-w-6xl mx-auto relative ${visible ? "animate-fade-in-up" : "opacity-0"}`}
           style={{ animationDelay: "0.3s" }}
         >
-          <div className="bg-[#f4f7fb] rounded-3xl overflow-hidden">
+          {/* Isotipo a la izquierda de la tarjeta */}
+          <img
+            src="/iso-Karilo.svg"
+            aria-hidden="true"
+            alt=""
+            className="absolute hidden lg:block pointer-events-none select-none"
+            style={{
+              right: "calc(100% - 40px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              height: "340px",
+              width: "auto",
+              opacity: 0.55,
+              zIndex: 0,
+            }}
+          />
+          <div className="bg-[#f4f7fb] rounded-3xl overflow-hidden relative" style={{ zIndex: 1 }}>
             <div className="grid grid-cols-1 lg:grid-cols-5">
 
               {/* ─ Left: text + offices + stat ─ */}
