@@ -13,6 +13,7 @@ const LinkedInIcon = ({ size = 18 }: { size?: number }) => (
 const Header = () => {
   const { t, lang, setLang } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [darkBg, setDarkBg] = useState(true);
@@ -27,6 +28,11 @@ const Header = () => {
     { label: t.nav.nosotros, href: "#nosotros" },
     { label: t.nav.contacto, href: "#contacto" },
   ];
+
+  const handleClose = () => {
+    setClosing(true);
+    setTimeout(() => { setOpen(false); setClosing(false); }, 380);
+  };
 
   // Lock body scroll when overlay is open
   useEffect(() => {
@@ -188,10 +194,11 @@ const Header = () => {
       {/* ── Fullscreen overlay ── */}
       {open && (
         <div
-          className="fixed inset-0 flex flex-col"
+          className="fixed inset-0 flex flex-col backdrop-blur-md"
           style={{
             zIndex: 9999,
-            background: "linear-gradient(135deg, #03051a 0%, #060c2e 60%, #04112b 100%)",
+            background: "linear-gradient(135deg, rgba(3,5,26,0.93) 0%, rgba(6,12,46,0.90) 60%, rgba(4,17,43,0.93) 100%)",
+            animation: closing ? "menuOut 0.38s ease-in forwards" : "menuIn 0.38s ease-out forwards",
           }}
         >
           {/* Background image con alfa */}
@@ -211,7 +218,7 @@ const Header = () => {
 
           {/* Top bar */}
           <div className="relative z-10 flex items-center justify-between px-8 sm:px-14 pt-8 pb-6">
-            <a href="#inicio" onClick={() => setOpen(false)} className="shrink-0">
+            <a href="#inicio" onClick={handleClose} className="shrink-0">
               <img
                 src={logoKarilo}
                 alt="Kariló"
@@ -220,7 +227,7 @@ const Header = () => {
               />
             </a>
             <button
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               className="w-12 h-12 rounded-full flex items-center justify-center text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-200"
               aria-label="Cerrar menú"
             >
@@ -236,7 +243,7 @@ const Header = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={handleClose}
                   className="group/link flex items-center gap-6 py-4 relative"
                 >
                   {/* Accent line — siempre visible si activo, aparece en hover */}
@@ -290,7 +297,7 @@ const Header = () => {
               </a>
               <a
                 href="#contacto"
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
                 className="px-6 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-widest rounded-lg hover:bg-[#0796fc]/85 transition-all duration-300"
               >
                 {t.nav.cta}
