@@ -12,7 +12,7 @@ export const es = {
     titleAccent: "transparente",
     title2: "y global.",
     subtitle: "Comercializadora internacional especializada en aceites, grasas, proteínas e ingredientes nutricionales de alto valor, orientados a la nutrición animal, acuicultura, petfood, producción porcina y biodiésel.",
-    cta1: "Contáctanos",
+    cta1: "Contactar",
     cta2: "Explorar soluciones",
   },
   fortalezas: {
