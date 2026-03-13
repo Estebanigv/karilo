@@ -210,7 +210,7 @@ const Header = () => {
             style={{ background: "radial-gradient(circle, rgba(7,150,252,0.07) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
 
           {/* Top bar */}
-          <div className="flex items-center justify-between px-8 sm:px-14 pt-8 pb-6">
+          <div className="relative z-10 flex items-center justify-between px-8 sm:px-14 pt-8 pb-6">
             <a href="#inicio" onClick={() => setOpen(false)} className="shrink-0">
               <img
                 src={logoKarilo}
@@ -229,7 +229,7 @@ const Header = () => {
           </div>
 
           {/* Nav links */}
-          <nav className="flex-1 flex flex-col justify-center px-8 sm:px-14 gap-1">
+          <nav className="relative z-10 flex-1 flex flex-col justify-center px-8 sm:px-14 gap-1">
             {navLinks.map((link, idx) => {
               const isActive = link.href === `#${currentSection}`;
               return (
@@ -260,7 +260,7 @@ const Header = () => {
           </nav>
 
           {/* Bottom bar */}
-          <div className="flex items-center justify-between px-8 sm:px-14 pb-10 pt-6 gap-4 flex-wrap">
+          <div className="relative z-10 flex items-center justify-between px-8 sm:px-14 pb-10 pt-6 gap-4 flex-wrap">
             {/* Language */}
             <div className="flex items-center gap-1">
               {(["es", "en", "pt"] as const).map((l: Lang, i) => (
@@ -268,7 +268,7 @@ const Header = () => {
                   <button
                     onClick={() => setLang(l)}
                     className={`px-2 py-1 font-display text-[11px] font-bold uppercase tracking-widest transition-colors duration-200 ${
-                      lang === l ? "text-white" : "text-white/30 hover:text-white/60"
+                      lang === l ? "text-white" : "text-white/55 hover:text-white"
                     }`}
                   >
                     {l.toUpperCase()}
@@ -283,7 +283,7 @@ const Header = () => {
                 href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/35 hover:text-white transition-colors duration-200"
+                className="text-white/60 hover:text-white transition-colors duration-200"
                 aria-label="LinkedIn"
               >
                 <LinkedInIcon size={18} />
