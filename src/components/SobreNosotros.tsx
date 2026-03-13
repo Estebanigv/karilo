@@ -298,7 +298,7 @@ const SobreNosotros = () => {
             className="absolute hidden lg:block pointer-events-none select-none"
             style={{
               right: "calc(100% - 60px)",
-              bottom: "-30px",
+              bottom: "15%",
               height: "220px",
               width: "auto",
               opacity: 0.75,
