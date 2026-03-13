@@ -66,41 +66,35 @@ const Soluciones = () => {
                 <img
                   src={sol.image}
                   alt={sol.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 
-                {/* Base gradient — fades on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#03051a]/85 via-[#03051a]/30 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
+                {/* Overlay — se oscurece en hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03051a]/90 via-[#03051a]/50 to-[#03051a]/10 transition-all duration-500 group-hover:from-[#03051a]/97 group-hover:via-[#03051a]/85 group-hover:to-[#03051a]/60" />
 
-                {/* Base info — slides down + fades on hover */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#0796fc]/25 backdrop-blur-sm flex items-center justify-center mb-3">
+                {/* Contenido siempre visible abajo */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
+                  <div className="w-8 h-8 rounded-lg bg-[#0796fc]/30 backdrop-blur-sm flex items-center justify-center mb-3">
                     <sol.icon className="w-4 h-4 text-white" />
                   </div>
                   <h3 className="font-display text-base font-bold text-white mb-1 leading-snug">
                     {sol.title}
                   </h3>
-                  <p className="font-body text-xs text-white/60">{sol.tagline}</p>
-                </div>
+                  <p className="font-body text-xs text-white/65">{sol.tagline}</p>
 
-                {/* Hover reveal panel — slides up from below */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#03051a]/98 via-[#03051a]/95 to-[#050bfa]/35 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out flex flex-col justify-end p-6">
-                  <div className="w-10 h-10 rounded-xl bg-[#0796fc]/20 flex items-center justify-center mb-4">
-                    <sol.icon className="w-5 h-5 text-[#0796fc]" />
+                  {/* Descripción + CTA — aparecen en hover */}
+                  <div className="overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500 ease-out">
+                    <p className="font-body text-xs text-white/75 leading-relaxed mt-3 mb-4 line-clamp-2">
+                      {sol.description}
+                    </p>
+                    <a
+                      href="#contacto"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-[#0796fc]/85 transition-colors duration-200 w-fit"
+                    >
+                      {t.soluciones.cta}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-white mb-2 leading-snug">
-                    {sol.title}
-                  </h3>
-                  <p className="font-body text-sm text-white/65 leading-relaxed mb-5 line-clamp-3">
-                    {sol.description}
-                  </p>
-                  <a
-                    href="#contacto"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-[#0796fc]/85 transition-all duration-200 w-fit"
-                  >
-                    {t.soluciones.cta}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
                 </div>
               </div>
             </div>
