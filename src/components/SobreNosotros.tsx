@@ -302,7 +302,7 @@ const SobreNosotros = () => {
               transform: "translateY(-50%)",
               height: "340px",
               width: "auto",
-              opacity: 0.55,
+              opacity: 0.75,
               zIndex: 0,
             }}
           />
@@ -310,7 +310,7 @@ const SobreNosotros = () => {
             <div className="grid grid-cols-1 lg:grid-cols-5">
 
               {/* ─ Left: text + offices + stat ─ */}
-              <div className="lg:col-span-2 p-8 md:p-10 lg:p-12 flex flex-col justify-center">
+              <div className="lg:col-span-2 p-8 md:p-10 lg:p-12 pb-12 md:pb-14 lg:pb-16 flex flex-col justify-center">
 
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-5 h-px bg-[#0796fc]" />
