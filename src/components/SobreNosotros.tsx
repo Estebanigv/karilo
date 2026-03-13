@@ -235,7 +235,23 @@ const SobreNosotros = () => {
   }, []);
 
   return (
-    <section id="nosotros" className="py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
+    <section id="nosotros" className="relative py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
+      {/* ── Decorative isotipo — positioned relative to full section width ── */}
+      <img
+        src="/iso-Karilo.svg"
+        aria-hidden="true"
+        alt=""
+        className="absolute pointer-events-none select-none hidden lg:block"
+        style={{
+          left: "-10px",
+          bottom: "4%",
+          height: "400px",
+          width: "auto",
+          opacity: 0.45,
+          zIndex: -1,
+        }}
+      />
+
       <div className="container px-6" ref={ref}>
 
         {/* ── About — Asymmetric layout ── */}
@@ -265,24 +281,6 @@ const SobreNosotros = () => {
             <p className="font-body text-muted-foreground leading-relaxed">{t.nosotros.p2}</p>
           </div>
         </div>
-
-        {/* ── Decorative isotipo background ── */}
-        <div className="relative">
-          <img
-            src="/iso-Karilo.svg"
-            aria-hidden="true"
-            alt=""
-            className="absolute pointer-events-none select-none"
-            style={{
-              left: "-60px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              height: "480px",
-              width: "auto",
-              opacity: 0.09,
-              filter: "hue-rotate(195deg) saturate(1.6)",
-            }}
-          />
 
         {/* ── How we generate value ── */}
         <div
@@ -375,8 +373,6 @@ const SobreNosotros = () => {
             </div>
           </div>
         </div>
-
-        </div>{/* end decorative K wrapper */}
 
       </div>
     </section>
