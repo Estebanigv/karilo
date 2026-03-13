@@ -82,18 +82,11 @@ const Soluciones = () => {
                   </h3>
                   <p className="font-body text-xs text-white/65">{sol.tagline}</p>
 
-                  {/* Descripción + CTA — aparecen en hover */}
-                  <div className="overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500 ease-out">
-                    <p className="font-body text-xs text-white/75 leading-relaxed mt-3 mb-4 line-clamp-2">
+                  {/* Descripción — aparece en hover */}
+                  <div className="overflow-hidden max-h-0 group-hover:max-h-24 transition-all duration-500 ease-out">
+                    <p className="font-body text-xs text-white/75 leading-relaxed mt-3 line-clamp-3">
                       {sol.description}
                     </p>
-                    <a
-                      href="#contacto"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-[#0796fc]/85 transition-colors duration-200 w-fit"
-                    >
-                      {t.soluciones.cta}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
                   </div>
                 </div>
               </div>
