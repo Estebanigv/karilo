@@ -73,7 +73,7 @@ const Fortalezas = () => {
             return (
               <div
                 key={item.title}
-                className={`group relative bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                className={`group relative bg-white border-2 border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-[#0796fc]/30 ${
                   visible ? "animate-fade-in-up" : "opacity-0"
                 }`}
                 style={{ animationDelay: `${0.1 + i * 0.12}s` }}
