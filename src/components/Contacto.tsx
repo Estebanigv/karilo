@@ -241,22 +241,18 @@ const Contacto = () => {
                 </span>
               </div>
               <div className="p-6 space-y-5">
-                {t.nosotros.offices.map((office, i) => (
+                {t.nosotros.offices.map((office) => (
                   <div key={office.city} className="flex items-start gap-4">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: i === 0 ? "#050bfa22" : "#0796fc18" }}
-                    >
-                      <MapPin
-                        className="w-4 h-4"
-                        style={{ color: i === 0 ? "#a5cff0" : "#0796fc" }}
-                      />
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#0796fc]/15">
+                      <MapPin className="w-4 h-4 text-[#0796fc]" />
                     </div>
                     <div>
                       <p className="font-display text-sm font-bold text-white/85 leading-tight">
                         {office.city}
                       </p>
-                      <p className="font-body text-xs text-white/35 mt-0.5">{office.label}</p>
+                      <p className="font-display text-xs font-semibold text-[#0796fc]/80 mt-1 tracking-wide">
+                        {office.label}
+                      </p>
                     </div>
                   </div>
                 ))}

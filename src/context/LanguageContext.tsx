@@ -4,9 +4,13 @@ import { translations, Lang } from "../i18n";
 const detectLang = (): Lang => {
   if (typeof navigator === "undefined") return "es";
   const lang = navigator.language.toLowerCase();
+
   if (lang.startsWith("pt")) return "pt";
+  if (lang.startsWith("es")) return "es";
   if (lang.startsWith("en")) return "en";
-  return "es";
+
+  // Asian languages and any other non-Spanish/Portuguese locale → English
+  return "en";
 };
 
 const LanguageContext = createContext<{

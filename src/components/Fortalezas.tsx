@@ -49,7 +49,7 @@ const Fortalezas = () => {
   }, []);
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-white overflow-hidden">
+    <section id="fortalezas" className="py-16 md:py-24 lg:py-32 bg-white overflow-hidden">
       <div className="container px-6" ref={ref}>
 
         {/* Header */}

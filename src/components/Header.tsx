@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import logoKarilo from "@/assets/logo-karilo.svg";
+import logoKarilo from "@/assets/logo-karilo-full.svg";
 import { useLanguage } from "../context/LanguageContext";
 import type { Lang } from "../i18n";
 
@@ -15,6 +15,10 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
+  const [darkBg, setDarkBg] = useState(true);
+  const [navVisible, setNavVisible] = useState(true);
+  const [isContacto, setIsContacto] = useState(false);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const navLinks = [
     { label: t.nav.inicio, href: "#inicio" },
@@ -23,143 +27,238 @@ const Header = () => {
     { label: t.nav.contacto, href: "#contacto" },
   ];
 
+  // Lock body scroll when overlay is open
   useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  useEffect(() => {
+    const DARK_IDS = new Set(["inicio", "contacto"]);
+
     const onScroll = () => {
       const heroHeight = window.innerHeight;
       setScrolled(window.scrollY > 60);
       setPastHero(window.scrollY > heroHeight * 0.75);
+
+      // Detect current section
+      const elements = document.elementsFromPoint(window.innerWidth / 2, 60);
+      const section = elements.find(el => el.matches("section[id], footer"));
+      let contacto = false;
+      if (section) {
+        const id = section.id || "";
+        setDarkBg(DARK_IDS.has(id) || section.tagName === "FOOTER");
+        contacto = id === "contacto" || section.tagName === "FOOTER";
+        setIsContacto(contacto);
+      } else {
+        setDarkBg(true);
+        setIsContacto(false);
+      }
+
+      // Auto-hide navbar — but NOT in the contacto/footer section and NOT when overlay is open
+      if (!contacto) {
+        setNavVisible(true);
+        if (hideTimer.current) clearTimeout(hideTimer.current);
+        hideTimer.current = setTimeout(() => setNavVisible(false), 2500);
+      } else {
+        // In contacto: always keep navbar visible
+        if (hideTimer.current) clearTimeout(hideTimer.current);
+        setNavVisible(true);
+      }
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
   }, []);
 
+  // When overlay opens, always keep navbar visible
+  useEffect(() => {
+    if (open) {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+      setNavVisible(true);
+    }
+  }, [open]);
+
+  // Whether the header bar itself should be hidden
+  const headerHidden = pastHero && !navVisible && !open;
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-[#03051a]/30 backdrop-blur-md" : "bg-transparent"
-      }`}
-    >
-      <div className="container relative flex items-center justify-end h-16 md:h-20 gap-2 px-4 sm:px-6">
+    <>
+      {/* ── Header bar ───────────────────────────────────────────── */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "bg-[#03051a]/30 backdrop-blur-md" : "bg-transparent"
+        } ${headerHidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}`}
+      >
+        <div className="container relative flex items-center justify-end h-16 md:h-20 gap-2 px-4 sm:px-6 overflow-visible">
 
-        {/* Logo — absolute left, appears after scrolling past hero */}
-        <a
-          href="#inicio"
-          className={`absolute left-4 sm:left-6 shrink-0 transition-all duration-500 ${pastHero ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
-        >
-          <img src={logoKarilo} alt="Kariló" className="h-9 md:h-10 w-auto brightness-0 invert" />
-        </a>
+          {/* Logo — absolute left, visible after hero and outside contacto */}
+          <a
+            href="#inicio"
+            className={`absolute left-4 sm:left-6 shrink-0 transition-all duration-500 ${
+              pastHero && !isContacto
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2 pointer-events-none"
+            }`}
+          >
+            <img
+              src={logoKarilo}
+              alt="Kariló"
+              className="h-11 md:h-12 w-auto"
+              style={{
+                filter: darkBg ? "brightness(0) invert(1)" : "none",
+                transition: "filter 0.4s ease",
+              }}
+            />
+          </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-0.5">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="px-3 lg:px-4 py-2 font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase transition-colors duration-300 rounded-lg text-white/85 hover:text-white whitespace-nowrap"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+          {/* Desktop nav — hidden in contacto */}
+          {!isContacto && (
+            <nav className="hidden md:flex items-center gap-0.5">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 lg:px-4 py-2 font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase transition-colors duration-300 rounded-lg text-white/85 hover:text-white whitespace-nowrap"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )}
 
-        {/* Separador */}
-        <div className="hidden md:block w-px h-5 bg-white/20 mx-2 lg:mx-3" />
+          {!isContacto && <div className="hidden md:block w-px h-5 bg-white/20 mx-2 lg:mx-3" />}
 
-        {/* LinkedIn */}
-        <a
-          href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:flex w-9 h-9 items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
-          aria-label="LinkedIn Kariló"
-        >
-          <LinkedInIcon size={17} />
-        </a>
-
-        {/* Language selector */}
-        <div className="hidden md:flex items-center gap-1 ml-1">
-          {(["es", "en", "pt"] as const).map((l: Lang) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`px-2 py-1 font-display text-[11px] font-bold uppercase rounded transition-colors ${
-                lang === l
-                  ? "text-white bg-white/15"
-                  : "text-white/50 hover:text-white"
-              }`}
-            >
-              {l.toUpperCase()}
-            </button>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <a
-          href="#contacto"
-          className="hidden md:inline-flex ml-2 px-4 lg:px-6 py-2.5 bg-accent text-white font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_4px_16px_hsl(205_97%_51%/0.4)] whitespace-nowrap"
-        >
-          {t.nav.cta}
-        </a>
-
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden p-2 rounded-lg text-white transition-colors"
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile nav */}
-      {open && (
-        <nav className="md:hidden bg-[#03051a]/80 backdrop-blur-xl mx-3 sm:mx-4 mb-4 rounded-xl px-5 sm:px-6 py-5 space-y-1 border border-white/10 animate-scale-reveal">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block font-display text-sm font-semibold uppercase tracking-wider text-white/70 hover:text-white transition-colors py-3 border-b border-white/10 last:border-0"
-            >
-              {link.label}
-            </a>
-          ))}
-          {/* Language selector mobile */}
-          <div className="flex items-center gap-2 pt-3 pb-1">
-            {(["es", "en", "pt"] as const).map((l: Lang) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`px-3 py-1.5 font-display text-xs font-bold uppercase rounded transition-colors ${
-                  lang === l
-                    ? "text-white bg-white/15"
-                    : "text-white/40 hover:text-white"
-                }`}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center justify-between pt-2 gap-3">
+          {!isContacto && (
             <a
               href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-white/60 hover:text-white font-display text-sm font-semibold transition-colors"
+              className="hidden md:flex w-9 h-9 items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+              aria-label="LinkedIn Kariló"
             >
-              <LinkedInIcon size={16} /> LinkedIn
+              <LinkedInIcon size={17} />
             </a>
+          )}
+
+          {!isContacto && (
+            <div className="hidden md:flex items-center gap-1 ml-1">
+              {(["es", "en", "pt"] as const).map((l: Lang) => (
+                <button
+                  key={l}
+                  onClick={() => setLang(l)}
+                  className={`px-2 py-1 font-display text-[11px] font-bold uppercase rounded transition-colors ${
+                    lang === l ? "text-white bg-white/15" : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  {l.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {!isContacto && (
             <a
               href="#contacto"
-              onClick={() => setOpen(false)}
-              className="flex-1 text-center px-5 py-3 bg-accent text-white font-display text-sm font-semibold uppercase tracking-wider rounded-lg transition-all duration-300"
+              className="hidden md:inline-flex ml-2 px-4 lg:px-6 py-2.5 bg-accent text-white font-display text-[12px] lg:text-[13px] font-semibold tracking-wider uppercase rounded-lg hover:bg-accent/85 transition-all duration-300 hover:shadow-[0_4px_16px_hsl(205_97%_51%/0.4)] whitespace-nowrap"
             >
               {t.nav.cta}
             </a>
+          )}
+
+          {/* Hamburger — shown in contacto (desktop) and always on mobile */}
+          <button
+            onClick={() => setOpen(true)}
+            className={`p-2.5 rounded-lg text-white bg-white/10 hover:bg-white/20 border border-white/15 transition-all duration-300 ${
+              isContacto ? "flex" : "md:hidden flex"
+            }`}
+            aria-label="Abrir menú"
+          >
+            <Menu size={22} />
+          </button>
+        </div>
+      </header>
+
+      {/* ── Fullscreen overlay — OUTSIDE header to avoid CSS transform bug ── */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-[#03051a] flex flex-col"
+          style={{ zIndex: 9999 }}
+        >
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-6 sm:px-12 pt-6 pb-4 border-b border-white/8">
+            <a href="#inicio" onClick={() => setOpen(false)} className="shrink-0">
+              <img
+                src={logoKarilo}
+                alt="Kariló"
+                className="h-10 md:h-11 w-auto"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
+            </a>
+            <button
+              onClick={() => setOpen(false)}
+              className="p-2.5 rounded-lg text-white/60 hover:text-white hover:bg-white/8 transition-all duration-200"
+              aria-label="Cerrar menú"
+            >
+              <X size={26} />
+            </button>
           </div>
-        </nav>
+
+          {/* Nav links — right-aligned, large */}
+          <nav className="flex-1 flex flex-col items-end justify-center px-8 sm:px-16 gap-0.5">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="font-display text-[11vw] sm:text-6xl font-extrabold uppercase tracking-tight text-white/20 hover:text-white transition-colors duration-200 py-1 leading-tight"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Bottom bar */}
+          <div className="flex items-center justify-between px-6 sm:px-12 pb-8 pt-4 border-t border-white/8 gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              {(["es", "en", "pt"] as const).map((l: Lang) => (
+                <button
+                  key={l}
+                  onClick={() => setLang(l)}
+                  className={`px-3 py-1.5 font-display text-[11px] font-bold uppercase rounded-md transition-colors ${
+                    lang === l ? "text-white bg-white/15" : "text-white/40 hover:text-white"
+                  }`}
+                >
+                  {l.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://www.linkedin.com/company/inv-karil%C3%B3-ltda/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white/45 hover:text-white font-display text-sm font-semibold transition-colors"
+              >
+                <LinkedInIcon size={15} />
+                <span>LinkedIn</span>
+              </a>
+              <a
+                href="#contacto"
+                onClick={() => setOpen(false)}
+                className="px-6 py-3 bg-accent text-white font-display text-sm font-semibold uppercase tracking-wider rounded-lg transition-all duration-300 hover:bg-accent/85"
+              >
+                {t.nav.cta}
+              </a>
+            </div>
+          </div>
+        </div>
       )}
-    </header>
+    </>
   );
 };
 

@@ -20,12 +20,28 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#03051a] text-white">
+    <footer className="relative bg-[#03051a] text-white overflow-hidden">
+      {/* Subtle grid background */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(7,150,252,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(7,150,252,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: "48px 48px",
+        }}
+      />
+      {/* Radial glow top-left */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#050bfa]/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Radial glow bottom-right */}
+      <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-[#0796fc]/8 rounded-full blur-[80px] pointer-events-none" />
+
       {/* Top gradient separator */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#0796fc]/40 to-transparent" />
+      <div className="relative h-px bg-gradient-to-r from-transparent via-[#0796fc]/40 to-transparent" />
 
       {/* Main footer body */}
-      <div className="container px-6 pt-16 pb-12">
+      <div className="relative container px-6 pt-16 pb-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
 
           {/* Col 1 — Brand */}
@@ -130,11 +146,10 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/8">
+      <div className="relative border-t border-white/[0.06]">
         <div className="container px-6 py-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-4">
           <p className="font-body text-xs text-white/30 text-center sm:text-left">
-            © {new Date().getFullYear()} Kariló Investment Group SpA. {t.footer.rights}
-          </p>
+            © {new Date().getFullYear()} Kariló Investment Group SpA. {t.footer.rights}          </p>
           <p className="font-body text-xs text-white/20 text-center sm:text-right">
             Chile · Perú · Brasil
           </p>

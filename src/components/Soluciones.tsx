@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRightLeft, Truck, Landmark, Microscope, X, ArrowRight } from "lucide-react";
 import tradingImg from "@/assets/trading.png";
 import logisticaImg from "@/assets/logistica.png";
+import financieraImg from "@/assets/financiera.png";
 import valorImg from "@/assets/valor-desempeno.png";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -9,7 +10,7 @@ const icons = [ArrowRightLeft, Truck, Landmark, Microscope];
 const images = [
   tradingImg,
   logisticaImg,
-  "/imagenes/Relaciones%20que%20perduran.png",
+  financieraImg,
   valorImg,
 ];
 

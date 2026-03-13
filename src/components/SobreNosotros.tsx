@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import casaMatrizImg from "@/assets/casa-matriz.png";
+import logoMapWatermark from "@/assets/logo-karilo-full.svg";
 import { MapPin } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import {
@@ -7,16 +8,13 @@ import {
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
 } from "react-simple-maps";
-
-const officeColors = ["#050bfa", "#0796fc", "#0796fc"];
 
 // Coordenadas [lon, lat] de las 3 oficinas
 const offices = [
-  { coords: [-72.9, -36.8] as [number, number], color: "#050bfa", pulse: "2s" },
-  { coords: [-77.0, -12.1] as [number, number], color: "#0796fc", pulse: "2.6s" },
-  { coords: [-46.6, -23.5] as [number, number], color: "#0796fc", pulse: "3.2s" },
+  { coords: [-72.9, -36.8] as [number, number], color: "#050bfa", pulse: "2s", pulse2: "2.8s", city: "Concepción", country: "Chile" },
+  { coords: [-77.0, -12.1] as [number, number], color: "#0796fc", pulse: "2.4s", pulse2: "3.2s", city: "Lima", country: "Perú" },
+  { coords: [-46.6, -23.5] as [number, number], color: "#0796fc", pulse: "2.8s", pulse2: "3.6s", city: "São Paulo", country: "Brasil" },
 ];
 
 // 25 países de trading — punto azul
@@ -50,50 +48,177 @@ const tradeDots: [number, number][] = [
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-const WorldMap = () => (
-  <ComposableMap
-    projection="geoMercator"
-    projectionConfig={{ scale: 130, center: [15, 10] }}
-    style={{ width: "100%", height: "100%" }}
-  >
-    <ZoomableGroup zoom={1} minZoom={1} maxZoom={1}>
+// ISO 3166-1 numeric IDs en world-atlas
+const HIGHLIGHT_IDS = new Set(["152", "604", "076"]); // Chile, Perú, Brasil
+
+const WorldMap = () => {
+  const [hovered, setHovered] = useState<number | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const svg = wrapperRef.current?.querySelector("svg");
+    if (svg) {
+      svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+      svg.style.width = "100%";
+      svg.style.height = "100%";
+    }
+  }, []);
+
+  return (
+    <div ref={wrapperRef} style={{ width: "100%", height: "100%" }}>
+    <ComposableMap
+      width={960}
+      height={500}
+      projection="geoMercator"
+      projectionConfig={{ scale: 155, center: [-30, 5] }}
+      style={{ width: "100%", height: "100%", display: "block" }}
+    >
       <Geographies geography={GEO_URL}>
         {({ geographies }) =>
-          geographies.map((geo) => (
-            <Geography
-              key={geo.rsmKey}
-              geography={geo}
-              fill="#b8cfe8"
-              stroke="#ffffff"
-              strokeWidth={0.5}
-              style={{
-                default: { outline: "none" },
-                hover:   { outline: "none", fill: "#9bbfdc" },
-                pressed: { outline: "none" },
-              }}
-            />
-          ))
+          geographies.map((geo) => {
+            const hl = HIGHLIGHT_IDS.has(String(geo.id));
+            return (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                fill={hl ? "#3d8fd4" : "#b0ccdf"}
+                stroke="#ffffff"
+                strokeWidth={hl ? 0.8 : 0.4}
+                style={{
+                  default: { outline: "none" },
+                  hover:   { outline: "none", fill: hl ? "#2e7fc4" : "#96b8d0" },
+                  pressed: { outline: "none" },
+                }}
+              />
+            );
+          })
         }
       </Geographies>
 
       {/* Trade dots */}
       {tradeDots.map(([lon, lat], i) => (
         <Marker key={i} coordinates={[lon, lat]}>
-          <circle r={3} fill="#0796fc" opacity={0.6} />
+          <circle r={2.5} fill="#0796fc" opacity={0.55} />
         </Marker>
       ))}
 
-      {/* Office markers */}
-      {offices.map((o, i) => (
-        <Marker key={`office-${i}`} coordinates={o.coords}>
-          <circle r={10} fill={o.color} opacity={0.18} className="animate-ping" style={{ animationDuration: o.pulse }} />
-          <circle r={5.5} fill={o.color} stroke="white" strokeWidth={1.5} />
-          <circle r={2}   fill="white" />
-        </Marker>
-      ))}
-    </ZoomableGroup>
-  </ComposableMap>
-);
+      {/* Office markers — con tooltip al hover */}
+      {offices.map((o, i) => {
+        const isHovered = hovered === i;
+        const labelWidth = o.city.length * 6.5 + 20;
+        return (
+          <Marker
+            key={`office-${i}`}
+            coordinates={o.coords}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            style={{ cursor: "pointer" }}
+          >
+            {/* Halo exterior */}
+            <circle r={isHovered ? 32 : 26} fill={o.color} opacity={isHovered ? 0.1 : 0.06} style={{ transition: "all 0.2s" }} />
+            {/* Anillo pulse lento */}
+            <circle
+              r={18}
+              fill="none"
+              stroke={o.color}
+              strokeWidth={1.5}
+              opacity={0.35}
+              className="animate-ping"
+              style={{ animationDuration: o.pulse2 }}
+            />
+            {/* Anillo pulse rápido */}
+            <circle
+              r={13}
+              fill={o.color}
+              opacity={0.22}
+              className="animate-ping"
+              style={{ animationDuration: o.pulse }}
+            />
+            {/* Anillo sólido */}
+            <circle r={isHovered ? 11 : 9} fill={o.color} opacity={0.35} style={{ transition: "r 0.15s" }} />
+            {/* Punto principal */}
+            <circle r={isHovered ? 8 : 6.5} fill={o.color} stroke="white" strokeWidth={2.5} style={{ transition: "r 0.15s" }} />
+            {/* Centro blanco */}
+            <circle r={2.8} fill="white" />
+
+            {/* Tooltip al hover */}
+            {isHovered && (
+              <g transform={`translate(0, -${labelWidth > 70 ? 46 : 42})`}>
+                {/* Sombra */}
+                <rect
+                  x={-(labelWidth / 2) + 1}
+                  y={1}
+                  width={labelWidth}
+                  height={32}
+                  rx={6}
+                  fill="black"
+                  fillOpacity={0.15}
+                />
+                {/* Fondo */}
+                <rect
+                  x={-(labelWidth / 2)}
+                  y={0}
+                  width={labelWidth}
+                  height={32}
+                  rx={6}
+                  fill="#03051a"
+                  fillOpacity={0.93}
+                />
+                {/* Borde azul */}
+                <rect
+                  x={-(labelWidth / 2)}
+                  y={0}
+                  width={labelWidth}
+                  height={32}
+                  rx={6}
+                  fill="none"
+                  stroke={o.color}
+                  strokeWidth={0.8}
+                  strokeOpacity={0.6}
+                />
+                {/* Ciudad */}
+                <text
+                  textAnchor="middle"
+                  y={13}
+                  style={{
+                    fontFamily: "sans-serif",
+                    fontSize: 9,
+                    fontWeight: 800,
+                    fill: "white",
+                    letterSpacing: "0.02em",
+                  } as React.CSSProperties}
+                >
+                  {o.city}
+                </text>
+                {/* País */}
+                <text
+                  textAnchor="middle"
+                  y={25}
+                  style={{
+                    fontFamily: "sans-serif",
+                    fontSize: 7,
+                    fontWeight: 500,
+                    fill: "#7dc8f7",
+                    letterSpacing: "0.05em",
+                  } as React.CSSProperties}
+                >
+                  {o.country}
+                </text>
+                {/* Flecha apuntando al punto */}
+                <polygon
+                  points={`-4,32 4,32 0,38`}
+                  fill="#03051a"
+                  fillOpacity={0.93}
+                />
+              </g>
+            )}
+          </Marker>
+        );
+      })}
+    </ComposableMap>
+    </div>
+  );
+};
 
 const SobreNosotros = () => {
   const { t } = useLanguage();
@@ -187,20 +312,17 @@ const SobreNosotros = () => {
                 </p>
 
                 <div className="space-y-2.5 mb-8">
-                  {t.nosotros.offices.map((office, i) => (
+                  {t.nosotros.offices.map((office) => (
                     <div
                       key={office.city}
                       className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100"
                     >
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: `${officeColors[i]}1a` }}
-                      >
-                        <MapPin className="w-4 h-4" style={{ color: officeColors[i] }} />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-[#0796fc]/15">
+                        <MapPin className="w-4 h-4 text-[#0796fc]" />
                       </div>
                       <div>
                         <p className="font-display text-[13px] font-bold text-[#414142] leading-tight">{office.city}</p>
-                        <p className="font-body text-[11px] text-gray-400 mt-0.5">{office.label}</p>
+                        <p className="font-display text-[11px] font-semibold text-[#0796fc]/70 mt-0.5">{office.label}</p>
                       </div>
                     </div>
                   ))}
@@ -217,9 +339,18 @@ const SobreNosotros = () => {
               </div>
 
               {/* ─ Right: Real World Map ─ */}
-              <div className="lg:col-span-3 relative bg-[#deeaf5] min-h-[300px] lg:min-h-0 flex items-center overflow-hidden rounded-b-3xl lg:rounded-none lg:rounded-r-3xl">
-                <div className="w-full h-full min-h-[300px]">
+              <div className="lg:col-span-3 relative bg-[#deeaf5] min-h-[380px] overflow-hidden rounded-b-3xl lg:rounded-none lg:rounded-r-3xl">
+                <div className="absolute inset-0 flex items-center">
                   <WorldMap />
+                </div>
+                {/* Logo watermark bottom-right */}
+                <div className="absolute bottom-4 right-4 pointer-events-none select-none" aria-hidden="true">
+                  <img
+                    src={logoMapWatermark}
+                    alt=""
+                    className="w-28 opacity-[0.18]"
+                    style={{ filter: "brightness(0) invert(0.3) sepia(1) saturate(2) hue-rotate(190deg)" }}
+                  />
                 </div>
               </div>
 

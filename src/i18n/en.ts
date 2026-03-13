@@ -13,8 +13,7 @@ export const en: Translations = {
     title1: "Nutrition and Energy,",
     titleAccent: "transparent",
     title2: "and global.",
-    subtitle:
-      "International trading company specialized in high-value oils, fats, proteins, and nutritional ingredients, focused on animal nutrition, aquaculture, pet food, swine production, and biodiesel.",
+    subtitle: "International trading company specialized in high-value oils, fats, proteins, and nutritional ingredients, focused on animal nutrition, aquaculture, pet food, swine production, and biodiesel.",
     cta1: "Contact Us",
     cta2: "Explore solutions",
   },
@@ -44,8 +43,7 @@ export const en: Translations = {
     label: "Comprehensive Solutions",
     title1: "Designed for your",
     titleAccent: "growth",
-    subtitle:
-      "Solutions that ensure operational continuity and boost our clients' development.",
+    subtitle: "Solutions that ensure operational continuity and boost our clients' development.",
     pill: "Solution",
     cta: "Start a conversation",
     back: "Go back",
@@ -88,19 +86,26 @@ export const en: Translations = {
     p2: "Founded in 2017, we are a Chilean company with a growing international presence, focused on the strategic sourcing of high-value oils, fats, proteins and functional ingredients.",
     valorLabel: "Value proposition",
     valorTitle: "How we generate value",
-    valorDesc:
-      "We connect the supply and demand of critical inputs and specialized ingredients, integrating international sourcing, logistics solutions and financial structuring.",
+    valorDesc: "We connect the supply and demand of critical inputs and specialized ingredients, integrating international sourcing, logistics solutions and financial structuring.",
     mapLabel: "Global Reach",
     mapTitle: "International Presence",
-    mapDesc:
-      "Kariló maintains active commercial relationships with more than 20 countries for the sourcing and commercialization of raw materials and nutritional ingredients.",
+    mapDesc: "Kariló maintains active commercial relationships with more than 20 countries for the sourcing and commercialization of raw materials and nutritional ingredients.",
     stat: "+20",
     statDesc: "active commercial relationships across 20+ countries",
     founded: "Year founded",
     offices: [
-      { city: "Concepción, Chile", label: "Headquarters" },
-      { city: "Lima, Peru", label: "Be&Ka Trading" },
-      { city: "São Paulo, Brazil", label: "Kariló Brasil" },
+      {
+        city: "Concepción, Chile",
+        label: "Headquarters",
+      },
+      {
+        city: "Lima, Peru",
+        label: "Be&Ka Trading",
+      },
+      {
+        city: "São Paulo, Brazil",
+        label: "Kariló Brasil",
+      },
     ],
   },
   contacto: {

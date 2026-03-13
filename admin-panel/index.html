@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kariló — Panel de Administración</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--sidebar:#10161e;--card:#161b22;--border:#21262d;
+  --accent:#0796fc;--text:#e6edf3;--muted:#7d8590;
+  --green:#3fb950;--red:#f85149;--r:10px;--tr:.18s ease;
+}
+html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button{font-family:inherit}
+
+/* Layout */
+#app{display:flex;height:100vh;overflow:hidden}
+
+/* Sidebar */
+#sidebar{width:230px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-header{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-logo{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.sb-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--accent);color:#fff;letter-spacing:.4px}
+.sb-nav{flex:1;overflow-y:auto;padding:8px}
+.sb-nav::-webkit-scrollbar{width:4px}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:10px 8px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);cursor:pointer;
+  color:var(--muted);font-weight:500;border:none;background:none;width:100%;text-align:left;font-size:13px;transition:all var(--tr)}
+.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item.active{background:rgba(7,150,252,.14);color:var(--accent);font-weight:600}
+.nav-item .ic{width:18px;height:18px;flex-shrink:0;opacity:.7}
+.nav-item.active .ic{opacity:1}
+.nav-item:hover .ic{opacity:.9}
+.sb-foot{padding:12px 14px;border-top:1px solid var(--border);display:none;align-items:center;gap:6px}
+.sb-foot.show{display:flex}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Main */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{
+  padding:13px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0;
+  background:var(--sidebar)
+}
+.sec-meta h2{font-size:17px;font-weight:700;line-height:1.2}
+.sec-meta p{font-size:12px;color:var(--muted);margin-top:3px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.lang-tabs{display:flex;gap:3px;background:rgba(255,255,255,.06);border-radius:8px;padding:3px}
+.lang-btn{padding:5px 13px;border-radius:6px;border:none;cursor:pointer;
+  font-size:12px;font-weight:600;background:none;color:var(--muted);transition:all var(--tr)}
+.lang-btn.active{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.save-btn{
+  display:flex;align-items:center;gap:7px;padding:8px 18px;border-radius:8px;
+  background:var(--accent);color:#fff;font-weight:600;border:none;cursor:pointer;
+  font-size:13px;transition:all var(--tr)
+}
+.save-btn:hover{background:#0686e0}
+.save-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Content */
+#content{flex:1;overflow-y:auto;padding:22px}
+#content::-webkit-scrollbar{width:5px}
+#content::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Cards */
+.s-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.card-title{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;
+  margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.card-title::before{content:'';display:inline-block;width:3px;height:14px;background:var(--accent);border-radius:2px}
+.fields-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg.full{grid-column:1/-1}
+label{font-size:11px;font-weight:500;color:var(--muted);display:block;margin-bottom:3px}
+input[type=text],textarea{
+  background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;
+  width:100%;transition:border-color var(--tr),box-shadow var(--tr);resize:vertical
+}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(7,150,252,.15)}
+textarea{min-height:72px}
+
+/* Arrays */
+.arr-title{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:12px;
+  display:flex;align-items:center;gap:7px}
+.arr-title::before{content:'';display:inline-block;width:3px;height:14px;background:#30363d;border-radius:2px}
+.arr-items{display:flex;flex-direction:column;gap:10px}
+.arr-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.arr-head{background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);
+  padding:10px 16px;display:flex;align-items:center;gap:10px}
+.arr-num{width:24px;height:24px;border-radius:50%;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.arr-preview{font-size:13px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arr-body{padding:14px 16px}
+
+/* Images */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.img-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color var(--tr)}
+.img-card:hover{border-color:var(--accent)}
+.img-preview{width:100%;height:140px;object-fit:cover;display:block;border-bottom:1px solid var(--border);background:#000}
+.img-info{padding:12px 14px}
+.img-label{font-size:13px;font-weight:600;margin-bottom:3px}
+.img-desc{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.45}
+.upload-lbl{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:9px;border-radius:8px;border:1px dashed var(--border);
+  background:none;color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;
+  transition:all var(--tr)
+}
+.upload-lbl:hover{border-color:var(--accent);color:var(--accent)}
+.progress{font-size:11px;color:var(--muted);text-align:center;padding:5px 0;display:none}
+
+/* Toast */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{
+  display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:10px;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.5);
+  animation:toastIn .25s ease;max-width:340px
+}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+@keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* Loading */
+.loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--muted);gap:10px}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Kariló</div>
+      <div class="sb-badge">Admin</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group-label">Textos del sitio</div>
+      <button class="nav-item" data-section="nav">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        Navegación
+      </button>
+      <button class="nav-item" data-section="hero">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Banner Principal
+      </button>
+      <button class="nav-item" data-section="fortalezas">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Fortalezas
+      </button>
+      <button class="nav-item" data-section="soluciones">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        Soluciones
+      </button>
+      <button class="nav-item" data-section="cta">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Propuesta de Valor
+      </button>
+      <button class="nav-item" data-section="nosotros">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Sobre Nosotros
+      </button>
+      <button class="nav-item" data-section="contacto">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Contacto
+      </button>
+      <button class="nav-item" data-section="footer">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/></svg>
+        Footer
+      </button>
+      <div class="sb-group-label" style="margin-top:8px">Recursos</div>
+      <button class="nav-item" data-section="images">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Imágenes
+      </button>
+    </nav>
+    <div class="sb-foot" id="unsaved-bar">
+      <div class="dot"></div>
+      <span style="font-size:11px;color:var(--muted)">Cambios sin guardar</span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div id="main">
+    <header id="topbar">
+      <div class="sec-meta">
+        <h2 id="sec-title">Cargando…</h2>
+        <p id="sec-desc"></p>
+      </div>
+      <div class="topbar-right">
+        <div class="lang-tabs" id="lang-tabs">
+          <button class="lang-btn active" data-lang="es">🇪🇸 ES</button>
+          <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+          <button class="lang-btn" data-lang="pt">🇧🇷 PT</button>
+        </div>
+        <button class="save-btn" id="save-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          Guardar cambios
+        </button>
+      </div>
+    </header>
+    <div id="content">
+      <div class="loading"><div class="spin"></div> Cargando contenido…</div>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+// ── Sections config ──────────────────────────────────────────────────
+const SECTIONS = {
+  nav:{
+    label:'Navegación',
+    desc:'Textos del menú de navegación y botones del header',
+    fields:[
+      {key:'inicio',    label:'Menú: Inicio',         type:'input'},
+      {key:'soluciones',label:'Menú: Soluciones',     type:'input'},
+      {key:'nosotros',  label:'Menú: Sobre Nosotros', type:'input'},
+      {key:'contacto',  label:'Menú: Contacto',       type:'input'},
+      {key:'cta',       label:'Botón principal (CTA)',type:'input'},
+    ]
+  },
+  hero:{
+    label:'Banner Principal',
+    desc:'Sección de bienvenida — primera pantalla que ve el visitante',
+    fields:[
+      {key:'tag',        label:'Etiqueta superior (badge)',  type:'input'},
+      {key:'title1',     label:'Título — parte 1',          type:'input'},
+      {key:'titleAccent',label:'Título — parte 2 (en azul)',type:'input'},
+      {key:'title2',     label:'Título — parte 3',          type:'input'},
+      {key:'subtitle',   label:'Subtítulo / Descripción',   type:'textarea',full:true},
+      {key:'cta1',       label:'Botón principal',           type:'input'},
+      {key:'cta2',       label:'Botón secundario',          type:'input'},
+    ]
+  },
+  fortalezas:{
+    label:'Nuestras Fortalezas',
+    desc:'Las 4 tarjetas de pilares de la empresa',
+    fields:[
+      {key:'label',label:'Etiqueta de sección',type:'input'},
+      {key:'title',label:'Título de sección',  type:'input',full:true},
+    ],
+    arrays:{
+      items:{
+        label:'Tarjetas de Fortalezas',
+        fields:[
+          {key:'title',label:'Título de la tarjeta',type:'input'},
+          {key:'desc', label:'Descripción',         type:'textarea'},
+        ]
+      }
+    }
+  },
+  soluciones:{
+    label:'Soluciones',
+    desc:'Sección de servicios y soluciones ofrecidas',
+    fields:[
+      {key:'label',       label:'Etiqueta de sección',    type:'input'},
+      {key:'title1',      label:'Título — parte 1',       type:'input'},
+      {key:'titleAccent', label:'Título — parte 2 (azul)',type:'input'},
+      {key:'subtitle',    label:'Subtítulo',              type:'textarea',full:true},
+      {key:'pill',        label:'Etiqueta de categoría',  type:'input'},
+      {key:'cta',         label:'Botón CTA',              type:'input'},
+      {key:'back',        label:'Botón "Volver"',         type:'input'},
+    ],
+    arrays:{
+      items:{
+        label:'Tarjetas de Soluciones',
+        fields:[
+          {key:'title',  label:'Título',    type:'input'},
+          {key:'tagline',label:'Tagline',   type:'input'},
+          {key:'desc',   label:'Descripción',type:'textarea'},
+        ]
+      }
+    }
+  },
+  cta:{
+    label:'Propuesta de Valor',
+    desc:'Sección CTA — abastecimiento estratégico',
+    fields:[
+      {key:'label',      label:'Etiqueta de sección',    type:'input'},
+      {key:'title1',     label:'Título — parte 1',       type:'input'},
+      {key:'titleAccent',label:'Título — parte 2 (azul)',type:'input'},
+      {key:'desc',       label:'Descripción',            type:'textarea',full:true},
+      {key:'btn',        label:'Botón CTA',              type:'input'},
+    ]
+  },
+  nosotros:{
+    label:'Sobre Nosotros',
+    desc:'Historia, misión, mapa de presencia y oficinas',
+    fields:[
+      {key:'label',      label:'Etiqueta de sección',          type:'input'},
+      {key:'title1',     label:'Título — parte 1',             type:'input'},
+      {key:'titleAccent',label:'Título — parte 2 (azul)',       type:'input'},
+      {key:'title2',     label:'Título — parte 3',             type:'input'},
+      {key:'p1',         label:'Párrafo 1',                    type:'textarea',full:true},
+      {key:'p2',         label:'Párrafo 2',                    type:'textarea',full:true},
+      {key:'valorLabel', label:'Etiqueta: Propuesta de Valor', type:'input'},
+      {key:'valorTitle', label:'Título: Cómo generamos valor', type:'input',full:true},
+      {key:'valorDesc',  label:'Desc: Cómo generamos valor',   type:'textarea',full:true},
+      {key:'mapLabel',   label:'Etiqueta del mapa',            type:'input'},
+      {key:'mapTitle',   label:'Título del mapa',              type:'input'},
+      {key:'mapDesc',    label:'Descripción del mapa',         type:'textarea',full:true},
+      {key:'stat',       label:'Estadística principal (+20)',   type:'input'},
+      {key:'statDesc',   label:'Descripción de estadística',   type:'textarea',full:true},
+      {key:'founded',    label:'Texto "Año de fundación"',     type:'input'},
+    ],
+    arrays:{
+      offices:{
+        label:'Oficinas',
+        fields:[
+          {key:'city', label:'Ciudad / País',type:'input'},
+          {key:'label',label:'Nombre / Rol', type:'input'},
+        ]
+      }
+    }
+  },
+  contacto:{
+    label:'Contacto',
+    desc:'Formulario, información de contacto y mensajes de confirmación',
+    fields:[
+      {key:'label',       label:'Etiqueta de sección',  type:'input'},
+      {key:'title',       label:'Título principal',     type:'input',full:true},
+      {key:'subtitle',    label:'Subtítulo',            type:'textarea',full:true},
+      {key:'nombre',      label:'Campo: Nombre',        type:'input'},
+      {key:'empresa',     label:'Campo: Empresa',       type:'input'},
+      {key:'cargo',       label:'Campo: Cargo',         type:'input'},
+      {key:'pais',        label:'Campo: País',          type:'input'},
+      {key:'correo',      label:'Campo: Email',         type:'input'},
+      {key:'mensaje',     label:'Campo: Mensaje',       type:'input'},
+      {key:'send',        label:'Botón "Enviar"',       type:'input'},
+      {key:'infoTitle',   label:'Título información',   type:'input'},
+      {key:'emailLabel',  label:'Label email',          type:'input'},
+      {key:'phoneLabel',  label:'Label teléfono',       type:'input'},
+      {key:'officesTitle',label:'Título oficinas',      type:'input'},
+      {key:'successTitle',label:'Título éxito',         type:'input'},
+      {key:'successMsg',  label:'Mensaje de éxito',     type:'textarea',full:true},
+      {key:'newMsg',      label:'Botón nuevo mensaje',  type:'input'},
+    ]
+  },
+  footer:{
+    label:'Footer',
+    desc:'Pie de página — descripción, títulos de columnas y derechos',
+    fields:[
+      {key:'desc',    label:'Descripción de la empresa',   type:'textarea',full:true},
+      {key:'nav',     label:'Título columna: Navegación',  type:'input'},
+      {key:'solutions',label:'Título columna: Soluciones', type:'input'},
+      {key:'contact', label:'Título columna: Contacto',    type:'input'},
+      {key:'offices', label:'Título columna: Oficinas',    type:'input'},
+      {key:'rights',  label:'Texto de derechos de autor',  type:'input',full:true},
+    ]
+  }
+};
+
+// ── State ──────────────────────────────────────────────────────────
+let DATA    = {es:null,en:null,pt:null};
+let SECTION = 'hero';
+let LANG    = 'es';
+let DIRTY   = false;
+
+// ── Init ──────────────────────────────────────────────────────────
+async function init(){
+  try{
+    const r = await fetch('/api/i18n');
+    DATA = await r.json();
+    goSection('hero');
+    document.querySelectorAll('.nav-item[data-section]').forEach(b=>{
+      b.addEventListener('click',()=>goSection(b.dataset.section));
+    });
+    document.querySelectorAll('.lang-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        LANG=b.dataset.lang;
+        document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        if(SECTION!=='images') render(SECTION);
+      });
+    });
+    document.getElementById('save-btn').addEventListener('click',save);
+  }catch(e){
+    document.getElementById('content').innerHTML=
+      '<div class="loading" style="color:var(--red)">❌ Error al conectar con el servidor</div>';
+  }
+}
+
+// ── Navigation ────────────────────────────────────────────────────
+function goSection(sec){
+  SECTION=sec;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const btn=document.querySelector('.nav-item[data-section="'+sec+'"]');
+  if(btn) btn.classList.add('active');
+  const isImg = sec==='images';
+  document.getElementById('lang-tabs').style.opacity = isImg?'.35':'1';
+  document.getElementById('lang-tabs').style.pointerEvents = isImg?'none':'';
+  if(isImg){
+    document.getElementById('sec-title').textContent='Imágenes';
+    document.getElementById('sec-desc').textContent='Reemplaza las imágenes. Sube archivos JPG o PNG.';
+    renderImages();
+  }else{
+    const cfg=SECTIONS[sec];
+    document.getElementById('sec-title').textContent=cfg.label;
+    document.getElementById('sec-desc').textContent=cfg.desc;
+    render(sec);
+  }
+}
+
+// ── Render section ────────────────────────────────────────────────
+function e(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function field(f,val,attrs){
+  const c = f.full?'fg full':'fg';
+  const a = attrs||'';
+  if(f.type==='textarea')
+    return '<div class="'+c+'"><label>'+f.label+'</label><textarea rows="3" '+a+'>'+e(val)+'</textarea></div>';
+  return '<div class="'+c+'"><label>'+f.label+'</label><input type="text" '+a+' value="'+e(val)+'"></div>';
+}
+
+function render(sec){
+  const cfg  = SECTIONS[sec];
+  const data = DATA[LANG]&&DATA[LANG][sec]||{};
+  let html   = '';
+
+  // Simple fields
+  if(cfg.fields&&cfg.fields.length){
+    html+='<div class="s-card"><div class="card-title">Textos generales</div><div class="fields-grid">';
+    cfg.fields.forEach(f=>{
+      html+=field(f,data[f.key],'data-sec="'+sec+'" data-key="'+f.key+'"');
+    });
+    html+='</div></div>';
+  }
+
+  // Arrays
+  if(cfg.arrays){
+    Object.entries(cfg.arrays).forEach(([arrKey,arrCfg])=>{
+      const items=data[arrKey]||[];
+      html+='<div class="s-card"><div class="arr-title">'+arrCfg.label+'</div><div class="arr-items">';
+      items.forEach((item,idx)=>{
+        const preview=item[arrCfg.fields[0].key]||'';
+        html+='<div class="arr-card"><div class="arr-head"><span class="arr-num">'+(idx+1)+'</span><span class="arr-preview">'+e(preview)+'</span></div><div class="arr-body"><div class="fields-grid">';
+        arrCfg.fields.forEach(f=>{
+          html+=field(f,item[f.key],'data-sec="'+sec+'" data-arr="'+arrKey+'" data-idx="'+idx+'" data-key="'+f.key+'"');
+        });
+        html+='</div></div></div>';
+      });
+      html+='</div></div>';
+    });
+  }
+
+  document.getElementById('content').innerHTML=html||'<div class="loading">Sin campos</div>';
+  attachListeners();
+}
+
+function attachListeners(){
+  document.querySelectorAll('#content input,#content textarea').forEach(el=>{
+    el.addEventListener('input',()=>{
+      const sec=el.dataset.sec,key=el.dataset.key,arr=el.dataset.arr,idx=el.dataset.idx;
+      if(!DATA[LANG][sec])DATA[LANG][sec]={};
+      if(arr){
+        if(!DATA[LANG][sec][arr])DATA[LANG][sec][arr]=[];
+        if(!DATA[LANG][sec][arr][+idx])DATA[LANG][sec][arr][+idx]={};
+        DATA[LANG][sec][arr][+idx][key]=el.value;
+      }else{
+        DATA[LANG][sec][key]=el.value;
+      }
+      markDirty();
+    });
+  });
+}
+
+// ── Images ────────────────────────────────────────────────────────
+async function renderImages(){
+  const c=document.getElementById('content');
+  c.innerHTML='<div class="loading"><div class="spin"></div> Cargando imágenes…</div>';
+  const imgs = await (await fetch('/api/images')).json();
+  let html='<div class="img-grid">';
+  imgs.forEach(img=>{
+    html+='<div class="img-card" id="icard-'+img.file+'">';
+    html+='<img src="'+img.url+'" class="img-preview" alt="" onerror="this.style.opacity=\'.2\'">';
+    html+='<div class="img-info">';
+    html+='<div class="img-label">'+img.label+'</div>';
+    html+='<div class="img-desc">'+img.desc+'</div>';
+    html+='<label class="upload-lbl" for="up-'+img.file+'">';
+    html+='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Reemplazar imagen';
+    html+='</label>';
+    html+='<input type="file" id="up-'+img.file+'" accept="image/*" style="display:none" data-file="'+img.file+'">';
+    html+='<div class="progress" id="prog-'+img.file+'"></div>';
+    html+='</div></div>';
+  });
+  html+='</div>';
+  c.innerHTML=html;
+  document.querySelectorAll('input[type=file]').forEach(inp=>{
+    inp.addEventListener('change',()=>uploadImg(inp));
+  });
+}
+
+async function uploadImg(inp){
+  const filename=inp.dataset.file;
+  const prog=document.getElementById('prog-'+filename);
+  if(!inp.files[0])return;
+  prog.style.display='block';prog.textContent='Subiendo…';
+  const fd=new FormData();fd.append('image',inp.files[0]);
+  try{
+    const r=await fetch('/api/upload/'+filename,{method:'POST',body:fd});
+    const d=await r.json();
+    if(d.ok){
+      document.querySelector('#icard-'+filename+' .img-preview').src=d.url;
+      prog.textContent='✅ Actualizada';
+      toast('✅ '+filename+' actualizada. Recarga el sitio para ver el cambio.','success');
+    }else throw new Error(d.error||'Error');
+  }catch(err){
+    prog.textContent='❌ Error al subir';
+    toast('❌ Error: '+err.message,'error');
+  }
+  setTimeout(()=>{prog.style.display='none';},3500);
+}
+
+// ── Save ──────────────────────────────────────────────────────────
+async function save(){
+  const btn=document.getElementById('save-btn');
+  btn.disabled=true;
+  btn.innerHTML='<div class="spin" style="width:14px;height:14px;border-width:2px"></div> Guardando…';
+  try{
+    const r=await fetch('/api/i18n',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(DATA)});
+    const d=await r.json();
+    if(d.ok){DIRTY=false;document.getElementById('unsaved-bar').classList.remove('show');toast('✅ Cambios guardados. El sitio se actualizará automáticamente.','success');}
+    else throw new Error(d.error||'Error del servidor');
+  }catch(err){toast('❌ No se pudo guardar: '+err.message,'error');}
+  btn.disabled=false;
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar cambios';
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
+function markDirty(){if(!DIRTY){DIRTY=true;document.getElementById('unsaved-bar').classList.add('show');}}
+
+function toast(msg,type){
+  const c=document.getElementById('toasts');
+  const d=document.createElement('div');
+  d.className='toast '+(type||'');d.textContent=msg;c.appendChild(d);
+  setTimeout(()=>d.remove(),4500);
+}
+
+window.addEventListener('beforeunload',e=>{if(DIRTY){e.preventDefault();e.returnValue='';}});
+init();
+</script>
+</body>
+</html>

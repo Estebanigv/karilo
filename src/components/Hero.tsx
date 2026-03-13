@@ -55,7 +55,7 @@ const Hero = () => {
             className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.05] mb-8 animate-fade-in-up break-words"
             style={{ animationDelay: "0.28s" }}
           >
-            {t.hero.title1}{" "}
+            <span className="whitespace-nowrap">{t.hero.title1}</span>{" "}
             <span className="text-[#0796fc]">{t.hero.titleAccent}</span> {t.hero.title2}
           </h1>
           <p
