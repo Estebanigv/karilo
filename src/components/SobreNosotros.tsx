@@ -297,12 +297,12 @@ const SobreNosotros = () => {
             alt=""
             className="absolute hidden lg:block pointer-events-none select-none"
             style={{
-              right: "calc(100% - 60px)",
-              bottom: "15%",
-              height: "220px",
+              right: "calc(100% - 80px)",
+              bottom: "-100px",
+              height: "200px",
               width: "auto",
-              opacity: 0.75,
-              zIndex: 0,
+              opacity: 0.85,
+              zIndex: 10,
             }}
           />
           <div className="bg-[#f4f7fb] rounded-3xl overflow-hidden relative" style={{ zIndex: 1 }}>
