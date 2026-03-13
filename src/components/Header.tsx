@@ -18,6 +18,7 @@ const Header = () => {
   const [darkBg, setDarkBg] = useState(true);
   const [navVisible, setNavVisible] = useState(true);
   const [isContacto, setIsContacto] = useState(false);
+  const [currentSection, setCurrentSection] = useState("inicio");
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const navLinks = [
@@ -46,10 +47,11 @@ const Header = () => {
       const section = elements.find(el => el.matches("section[id], footer"));
       let contacto = false;
       if (section) {
-        const id = section.id || "";
+        const id = section.id || (section.tagName === "FOOTER" ? "contacto" : "");
         setDarkBg(DARK_IDS.has(id) || section.tagName === "FOOTER");
         contacto = id === "contacto" || section.tagName === "FOOTER";
         setIsContacto(contacto);
+        setCurrentSection(id);
       } else {
         setDarkBg(true);
         setIsContacto(false);
@@ -192,11 +194,20 @@ const Header = () => {
             background: "linear-gradient(135deg, #03051a 0%, #060c2e 60%, #04112b 100%)",
           }}
         >
-          {/* Decorative background glow */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(7,150,252,0.06) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(5,11,250,0.05) 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
+          {/* Background image con alfa */}
+          <img
+            src="/imagenes/BANNER 02.png"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            style={{ opacity: 0.12, mixBlendMode: "luminosity" }}
+          />
+          {/* Gradient overlay para mantener legibilidad */}
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(135deg, rgba(3,5,26,0.92) 0%, rgba(6,12,46,0.85) 60%, rgba(4,17,43,0.92) 100%)" }} />
+          {/* Glow azul sutil */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(7,150,252,0.07) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
 
           {/* Top bar */}
           <div className="flex items-center justify-between px-8 sm:px-14 pt-8 pb-6">
@@ -219,25 +230,33 @@ const Header = () => {
 
           {/* Nav links */}
           <nav className="flex-1 flex flex-col justify-center px-8 sm:px-14 gap-1">
-            {navLinks.map((link, idx) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="group/link flex items-center gap-6 py-4 relative"
-              >
-                {/* Accent line on hover */}
-                <div className="w-0 group-hover/link:w-8 h-px bg-[#0796fc] transition-all duration-300 shrink-0" />
-                <div className="flex items-baseline gap-4 flex-1">
-                  <span className="font-display text-[10px] font-bold text-[#0796fc]/40 tracking-[0.3em] tabular-nums group-hover/link:text-[#0796fc]/70 transition-colors duration-300">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-display text-[8.5vw] sm:text-5xl md:text-[56px] font-extrabold uppercase tracking-tight text-white/40 group-hover/link:text-white transition-all duration-300 leading-none">
-                    {link.label}
-                  </span>
-                </div>
-              </a>
-            ))}
+            {navLinks.map((link, idx) => {
+              const isActive = link.href === `#${currentSection}`;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="group/link flex items-center gap-6 py-4 relative"
+                >
+                  {/* Accent line — siempre visible si activo, aparece en hover */}
+                  <div className={`h-px bg-[#0796fc] transition-all duration-300 shrink-0 ${isActive ? "w-10" : "w-0 group-hover/link:w-8"}`} />
+                  <div className="flex items-baseline gap-4 flex-1">
+                    <span className={`font-display text-[10px] font-bold tracking-[0.3em] tabular-nums transition-colors duration-300 ${isActive ? "text-[#0796fc]" : "text-[#0796fc]/35 group-hover/link:text-[#0796fc]/70"}`}>
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span className={`font-display text-[8.5vw] sm:text-5xl md:text-[56px] font-extrabold uppercase tracking-tight transition-all duration-300 leading-none ${isActive ? "text-white" : "text-white/35 group-hover/link:text-white"}`}>
+                      {link.label}
+                    </span>
+                    {isActive && (
+                      <span className="hidden sm:block font-display text-[10px] font-bold text-[#0796fc] tracking-widest uppercase self-center ml-2">
+                        ← aquí
+                      </span>
+                    )}
+                  </div>
+                </a>
+              );
+            })}
           </nav>
 
           {/* Bottom bar */}
