@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import casaMatrizImg from "@/assets/casa-matriz.png";
 import logoMapWatermark from "@/assets/logo-karilo-full.svg";
-import logoKIsotipo from "@/assets/logo-karilo.svg";
 import { MapPin } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import {
@@ -267,21 +266,21 @@ const SobreNosotros = () => {
           </div>
         </div>
 
-        {/* ── Decorative K isotipo background ── */}
+        {/* ── Decorative isotipo background ── */}
         <div className="relative">
-          {/* The K symbol sits at ~47% of the 1920px SVG canvas.
-              backgroundSize 2200px + backgroundPosition -1020px
-              places the K left edge at ~26px from the wrapper left. */}
-          <div
+          <img
+            src="/iso-Karilo.svg"
             aria-hidden="true"
-            className="absolute inset-0 pointer-events-none select-none"
+            alt=""
+            className="absolute pointer-events-none select-none"
             style={{
-              backgroundImage: `url(${logoKIsotipo})`,
-              backgroundSize: "2200px auto",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "-1020px center",
-              opacity: 0.08,
-              filter: "saturate(1.8) hue-rotate(195deg)",
+              left: "-60px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              height: "480px",
+              width: "auto",
+              opacity: 0.09,
+              filter: "hue-rotate(195deg) saturate(1.6)",
             }}
           />
 
