@@ -269,18 +269,19 @@ const SobreNosotros = () => {
 
         {/* ── Decorative K isotipo background ── */}
         <div className="relative">
-          <img
-            src={logoKIsotipo}
+          {/* The K symbol sits at ~47% of the 1920px SVG canvas.
+              backgroundSize 2200px + backgroundPosition -1020px
+              places the K left edge at ~26px from the wrapper left. */}
+          <div
             aria-hidden="true"
-            alt=""
-            className="absolute pointer-events-none select-none"
+            className="absolute inset-0 pointer-events-none select-none"
             style={{
-              left: "-6%",
-              top: "50%",
-              transform: "translateY(-50%)",
-              width: "520px",
-              opacity: 0.065,
-              filter: "saturate(1.5) hue-rotate(200deg)",
+              backgroundImage: `url(${logoKIsotipo})`,
+              backgroundSize: "2200px auto",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "-1020px center",
+              opacity: 0.08,
+              filter: "saturate(1.8) hue-rotate(195deg)",
             }}
           />
 
