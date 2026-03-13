@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRightLeft, Truck, Landmark, Microscope, X, ArrowRight } from "lucide-react";
+import { ArrowRightLeft, Truck, Landmark, Microscope, ArrowRight } from "lucide-react";
 import tradingImg from "@/assets/trading.png";
 import logisticaImg from "@/assets/logistica.png";
 import financieraImg from "@/assets/financiera.png";
@@ -7,31 +7,12 @@ import valorImg from "@/assets/valor-desempeno.png";
 import { useLanguage } from "../context/LanguageContext";
 
 const icons = [ArrowRightLeft, Truck, Landmark, Microscope];
-const images = [
-  tradingImg,
-  logisticaImg,
-  financieraImg,
-  valorImg,
-];
-
-// transform-origin by position in 2x2 grid
-const origins = ["top left", "top right", "bottom left", "bottom right"];
-
-type Solution = {
-  icon: typeof ArrowRightLeft;
-  title: string;
-  tagline: string;
-  description: string;
-  image: string;
-  index: number;
-};
+const images = [tradingImg, logisticaImg, financieraImg, valorImg];
 
 const Soluciones = () => {
   const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState<Solution | null>(null);
-  const [closing, setClosing] = useState(false);
 
   const solutions = t.soluciones.items.map((item, i) => ({
     icon: icons[i],
@@ -43,36 +24,12 @@ const Soluciones = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
       { threshold: 0.05 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
-
-  const open = (sol: typeof solutions[0], index: number) => {
-    setClosing(false);
-    setSelected({ ...sol, index });
-  };
-
-  const close = () => {
-    setClosing(true);
-    setTimeout(() => {
-      setSelected(null);
-      setClosing(false);
-    }, 300);
-  };
-
-  useEffect(() => {
-    if (!selected) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [selected]);
 
   return (
     <section id="soluciones" className="relative py-16 md:py-24 lg:py-32 bg-[#f4f7fb] overflow-hidden">
@@ -97,22 +54,26 @@ const Soluciones = () => {
         {/* Card grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
           {solutions.map((sol, i) => (
-            <button
+            <div
               key={sol.title}
-              onClick={() => open(sol, i)}
-              className={`group relative overflow-hidden rounded-2xl text-left cursor-pointer focus:outline-none ${
+              className={`group relative overflow-hidden rounded-2xl ${
                 visible ? "animate-fade-in-up" : "opacity-0"
-              } ${selected && !closing ? "opacity-30 pointer-events-none" : "opacity-100"} transition-opacity duration-300`}
+              } transition-all duration-300 hover:shadow-[0_20px_60px_rgba(0,0,0,0.22)] hover:-translate-y-1.5`}
               style={{ animationDelay: `${0.1 + i * 0.12}s` }}
             >
-              <div className="relative h-56 md:h-64 overflow-hidden">
+              <div className="relative h-64 md:h-72 overflow-hidden">
+                {/* Background image */}
                 <img
                   src={sol.image}
                   alt={sol.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#03051a]/90 via-[#03051a]/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+
+                {/* Base gradient — fades on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03051a]/85 via-[#03051a]/30 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
+
+                {/* Base info — slides down + fades on hover */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-3">
                   <div className="w-8 h-8 rounded-lg bg-[#0796fc]/25 backdrop-blur-sm flex items-center justify-center mb-3">
                     <sol.icon className="w-4 h-4 text-white" />
                   </div>
@@ -121,81 +82,31 @@ const Soluciones = () => {
                   </h3>
                   <p className="font-body text-xs text-white/60">{sol.tagline}</p>
                 </div>
-                {/* Hover hint */}
-                <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <ArrowRight className="w-3.5 h-3.5 text-white" />
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
 
-      {/* Expanded panel */}
-      {selected && (
-        <div
-          className={`absolute inset-0 z-20 ${closing ? "animate-collapse-card" : "animate-expand-card"}`}
-          style={{ transformOrigin: origins[selected.index] }}
-        >
-          {/* Background image */}
-          <img
-            src={selected.image}
-            alt={selected.title}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#03051a]/95 via-[#03051a]/80 to-[#050bfa]/30" />
-
-          {/* Centered content */}
-          <div className="relative z-10 h-full flex items-center overflow-y-auto">
-            <div className="container px-6 py-16 sm:py-0">
-              <div className="max-w-2xl">
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-2xl bg-[#0796fc]/20 backdrop-blur-sm flex items-center justify-center mb-7">
-                  <selected.icon className="w-7 h-7 text-[#0796fc]" />
-                </div>
-
-                {/* Pill */}
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-[#0796fc]/15 text-[#a5cff0] border border-[#0796fc]/25 font-display mb-5">
-                  {t.soluciones.pill}
-                </span>
-
-                <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-5 break-words">
-                  {selected.title}
-                </h3>
-                <p className="font-body text-white/70 text-base md:text-lg leading-relaxed mb-10 max-w-xl">
-                  {selected.description}
-                </p>
-
-                <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
+                {/* Hover reveal panel — slides up from below */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#03051a]/98 via-[#03051a]/95 to-[#050bfa]/35 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out flex flex-col justify-end p-6">
+                  <div className="w-10 h-10 rounded-xl bg-[#0796fc]/20 flex items-center justify-center mb-4">
+                    <sol.icon className="w-5 h-5 text-[#0796fc]" />
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-white mb-2 leading-snug">
+                    {sol.title}
+                  </h3>
+                  <p className="font-body text-sm text-white/65 leading-relaxed mb-5 line-clamp-3">
+                    {sol.description}
+                  </p>
                   <a
                     href="#contacto"
-                    onClick={close}
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#0796fc] text-white font-display text-sm font-semibold rounded-xl hover:bg-[#0796fc]/85 transition-all duration-300 hover:shadow-[0_8px_24px_hsl(205_97%_51%/0.4)]"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0796fc] text-white font-display text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-[#0796fc]/85 transition-all duration-200 w-fit"
                   >
                     {t.soluciones.cta}
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </a>
-                  <button
-                    onClick={close}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-white/25 text-white/80 hover:text-white font-display text-sm font-semibold rounded-xl hover:bg-white/8 transition-all duration-300"
-                  >
-                    {t.soluciones.back}
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Close button */}
-          <button
-            onClick={close}
-            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors z-30"
-          >
-            <X size={18} />
-          </button>
+          ))}
         </div>
-      )}
+      </div>
     </section>
   );
 };

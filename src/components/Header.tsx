@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import logoKarilo from "@/assets/logo-karilo-full.svg";
 import { useLanguage } from "../context/LanguageContext";
 import type { Lang } from "../i18n";
@@ -208,16 +208,26 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Nav links — right-aligned, large */}
-          <nav className="flex-1 flex flex-col items-end justify-center px-8 sm:px-16 gap-0.5">
-            {navLinks.map((link) => (
+          {/* Nav links */}
+          <nav className="flex-1 flex flex-col justify-center px-8 sm:px-14">
+            {navLinks.map((link, idx) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="font-display text-[11vw] sm:text-6xl font-extrabold uppercase tracking-tight text-white/20 hover:text-white transition-colors duration-200 py-1 leading-tight"
+                className="group/link flex items-center justify-between py-3 sm:py-4 border-b border-white/8 last:border-0"
               >
-                {link.label}
+                <span className="font-display text-[10px] font-bold text-white/25 tracking-[0.25em] tabular-nums">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <div className="flex items-center gap-3">
+                  <span className="font-display text-[9vw] sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white/55 group-hover/link:text-white transition-colors duration-200 leading-none">
+                    {link.label}
+                  </span>
+                  <span className="w-0 overflow-hidden group-hover/link:w-6 transition-all duration-300 flex items-center">
+                    <ArrowRight size={18} className="text-[#0796fc] shrink-0" />
+                  </span>
+                </div>
               </a>
             ))}
           </nav>

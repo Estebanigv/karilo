@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import casaMatrizImg from "@/assets/casa-matriz.png";
 import logoMapWatermark from "@/assets/logo-karilo-full.svg";
+import logoKIsotipo from "@/assets/logo-karilo.svg";
 import { MapPin } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import {
@@ -266,6 +267,23 @@ const SobreNosotros = () => {
           </div>
         </div>
 
+        {/* ── Decorative K isotipo background ── */}
+        <div className="relative">
+          <img
+            src={logoKIsotipo}
+            aria-hidden="true"
+            alt=""
+            className="absolute pointer-events-none select-none"
+            style={{
+              left: "-6%",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "520px",
+              opacity: 0.065,
+              filter: "saturate(1.5) hue-rotate(200deg)",
+            }}
+          />
+
         {/* ── How we generate value ── */}
         <div
           className={`max-w-6xl mx-auto mb-16 md:mb-28 ${visible ? "animate-fade-in-up" : "opacity-0"}`}
@@ -357,6 +375,8 @@ const SobreNosotros = () => {
             </div>
           </div>
         </div>
+
+        </div>{/* end decorative K wrapper */}
 
       </div>
     </section>
