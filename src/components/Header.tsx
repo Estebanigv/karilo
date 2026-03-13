@@ -204,16 +204,16 @@ const Header = () => {
               <img
                 src={logoKarilo}
                 alt="Kariló"
-                className="h-12 md:h-14 w-auto"
-                style={{ filter: "brightness(0) invert(1)", opacity: 0.92 }}
+                className="h-16 md:h-20 w-auto"
+                style={{ filter: "brightness(0) invert(1)", opacity: 1 }}
               />
             </a>
             <button
               onClick={() => setOpen(false)}
-              className="w-11 h-11 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/8 transition-all duration-200"
+              className="w-12 h-12 rounded-full flex items-center justify-center text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-200"
               aria-label="Cerrar menú"
             >
-              <X size={22} />
+              <X size={26} strokeWidth={2} />
             </button>
           </div>
 
