@@ -290,17 +290,16 @@ const SobreNosotros = () => {
           className={`max-w-6xl mx-auto relative ${visible ? "animate-fade-in-up" : "opacity-0"}`}
           style={{ animationDelay: "0.3s" }}
         >
-          {/* Isotipo a la izquierda de la tarjeta */}
+          {/* Isotipo a la izquierda de la tarjeta, alineado con el +20 y hacia abajo */}
           <img
             src="/iso-Karilo.svg"
             aria-hidden="true"
             alt=""
             className="absolute hidden lg:block pointer-events-none select-none"
             style={{
-              right: "calc(100% - 40px)",
-              top: "50%",
-              transform: "translateY(-50%)",
-              height: "340px",
+              right: "calc(100% - 60px)",
+              bottom: "-30px",
+              height: "220px",
               width: "auto",
               opacity: 0.75,
               zIndex: 0,
